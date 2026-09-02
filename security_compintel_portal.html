@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Security Competitive Intelligence Portal — Elastic</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Mono&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --elastic-blue: #0B64DD; --light-teal: #48EFCF; --light-poppy: #FF957D;
+    --pink: #F04E98; --yellow: #FEC514; --midnight: #153385;
+    --developer-blue: #101C3F; --dark-ink: #1C1E23; --ink: #343741;
+    --light-grey: #F5F7FA; --white: #FFFFFF;
+    --font: 'Inter', Arial, sans-serif; --mono: 'Space Mono', monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: var(--font); background: var(--light-grey); color: var(--ink); line-height: 1.6; }
+  .site-header { background: var(--elastic-blue); padding: 28px 48px 24px; color: white; }
+  .header-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+  .header-top a.archive-link { font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.8); text-decoration: none; border: 1px solid rgba(255,255,255,0.35); padding: 5px 12px; border-radius: 4px; white-space: nowrap; margin-top: 4px; transition: background 0.15s; }
+  .header-top a.archive-link:hover { background: rgba(255,255,255,0.15); color: white; }
+  .site-header h1 { font-size: 26px; font-weight: 800; letter-spacing: -0.5px; }
+  .site-header .subtitle { font-size: 13px; opacity: 0.75; margin-top: 3px; }
+  .solution-nav { display: flex; gap: 6px; margin-top: 14px; }
+  .solution-nav a { font-size: 11.5px; font-weight: 600; padding: 4px 12px; border-radius: 100px; text-decoration: none; color: rgba(255,255,255,0.7); border: 1px solid rgba(255,255,255,0.25); transition: all 0.15s; }
+  .solution-nav a:hover { color: white; border-color: rgba(255,255,255,0.6); }
+  .solution-nav a.current { background: white; color: var(--elastic-blue); border-color: white; }
+  .meta-row { display: flex; align-items: center; gap: 16px; margin-top: 16px; flex-wrap: wrap; }
+  .meta-chip { background: rgba(255,255,255,0.15); border-radius: 4px; padding: 3px 9px; font-size: 11px; font-weight: 500; }
+  .meta-chip.updated { background: var(--light-teal); color: var(--developer-blue); font-family: var(--mono); font-size: 11px; }
+  .filter-bar { background: var(--developer-blue); padding: 10px 48px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; position: sticky; top: 0; z-index: 100; }
+  .filter-label { font-size: 11px; font-weight: 600; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 0.8px; margin-right: 4px; }
+  .filter-pill { font-size: 12px; font-weight: 600; padding: 4px 12px; border-radius: 100px; border: 1.5px solid rgba(255,255,255,0.25); background: transparent; color: rgba(255,255,255,0.75); cursor: pointer; transition: all 0.15s; font-family: var(--font); }
+  .filter-pill:hover { border-color: rgba(255,255,255,0.6); color: white; }
+  .filter-pill.active { background: var(--light-teal); border-color: var(--light-teal); color: var(--developer-blue); }
+  .filter-pill.reset { border-color: rgba(255,255,255,0.15); color: rgba(255,255,255,0.4); font-weight: 500; }
+  .filter-pill.reset:hover { border-color: rgba(255,255,255,0.4); color: rgba(255,255,255,0.7); }
+  .filter-count { font-size: 11px; color: rgba(255,255,255,0.35); margin-left: auto; font-family: var(--mono); }
+  .container { max-width: 1100px; margin: 0 auto; padding: 36px 24px; }
+  .section-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.2px; color: var(--elastic-blue); margin-bottom: 16px; }
+  .section-label::after { content: ''; display: block; width: 60px; height: 3px; background: var(--light-teal); margin-top: 6px; }
+  .quick-read { background: var(--elastic-blue); border-radius: 8px; padding: 22px 26px 22px 30px; color: white; margin-bottom: 36px; position: relative; overflow: hidden; }
+  .quick-read::before { content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: var(--light-teal); }
+  .quick-read .label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.2px; color: var(--light-teal); margin-bottom: 8px; }
+  .quick-read p { font-size: 14.5px; line-height: 1.7; opacity: 0.95; }
+  .quick-read strong { color: var(--light-teal); font-weight: 700; }
+  .summary-section { background: white; border-radius: 8px; border: 1.5px solid var(--developer-blue); overflow: hidden; margin-bottom: 36px; }
+  .summary-section .section-header { background: var(--developer-blue); color: white; padding: 11px 20px; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; display: grid; grid-template-columns: 160px 1fr 1fr; gap: 16px; }
+  .summary-row { padding: 13px 20px; display: grid; grid-template-columns: 160px 1fr 1fr; gap: 16px; border-bottom: 1px solid #e8ecf0; font-size: 13px; align-items: start; transition: background 0.15s; }
+  .summary-row:hover { background: var(--light-grey); }
+  .summary-row:last-child { border-bottom: none; }
+  .summary-row.no-update { opacity: 0.45; }
+  .vendor-name { font-weight: 700; color: var(--dark-ink); font-size: 12.5px; }
+  .watch-signal { color: var(--ink); font-style: italic; font-size: 12.5px; }
+  .no-update-text { color: #bbb; font-style: italic; }
+  .vendors-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(480px, 1fr)); gap: 20px; margin-bottom: 36px; }
+  .vendor-card { background: white; border-radius: 8px; border: 1.5px solid var(--developer-blue); overflow: hidden; }
+  .vendor-card.no-update { border-color: #d0d5dd; opacity: 0.65; }
+  .card-header { padding: 14px 18px 12px; border-bottom: 1px solid #e8ecf0; display: flex; align-items: center; justify-content: space-between; }
+  .card-vendor-name { font-size: 15px; font-weight: 800; color: var(--dark-ink); }
+  .status-badge { font-size: 10.5px; font-weight: 600; padding: 3px 9px; border-radius: 100px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .status-badge.active { background: #e6f4ea; color: #1a7232; }
+  .status-badge.quiet { background: #f0f0f0; color: #888; }
+  .card-body { padding: 14px 18px; }
+  .card-body p { font-size: 13px; color: var(--ink); line-height: 1.65; margin-bottom: 10px; }
+  .card-body p:last-child { margin-bottom: 0; }
+  .card-body .signal { border-left: 3px solid var(--light-teal); padding-left: 10px; font-style: italic; color: var(--dark-ink); }
+  .no-update-msg { font-size: 13px; color: #bbb; font-style: italic; padding: 4px 0; }
+  .further-reading { background: white; border-radius: 8px; border: 1.5px solid var(--developer-blue); overflow: hidden; margin-bottom: 36px; }
+  .fr-header { background: var(--developer-blue); color: white; padding: 11px 20px; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; }
+  .fr-body { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); }
+  .fr-vendor { padding: 14px 18px; border-right: 1px solid #e8ecf0; border-bottom: 1px solid #e8ecf0; }
+  .fr-vendor-name { font-size: 11.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: var(--dark-ink); margin-bottom: 8px; }
+  .fr-vendor-name::after { content: ''; display: block; width: 28px; height: 2px; background: var(--light-teal); margin-top: 4px; }
+  .fr-link { display: block; font-size: 12.5px; color: var(--elastic-blue); text-decoration: none; margin-bottom: 5px; line-height: 1.4; }
+  .fr-link:hover { text-decoration: underline; }
+  .fr-link::before { content: '→ '; font-size: 10px; opacity: 0.55; }
+  [data-vendor].vendor-hidden { display: none !important; }
+  .site-footer { background: var(--developer-blue); color: rgba(255,255,255,0.45); padding: 18px 48px; font-size: 11.5px; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+  .site-footer a { color: var(--light-teal); text-decoration: none; }
+  .site-footer a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+<header class="site-header">
+  <div class="header-top">
+    <div>
+      <h1>Security competitive intelligence</h1>
+      <p class="subtitle">CrowdStrike · SentinelOne · Palo Alto Networks · Microsoft · Splunk · Google SecOps</p>
+      <nav class="solution-nav">
+        <a href="https://frankswain-png.github.io/o11y_CompIntel/">Observability</a>
+        <a href="https://frankswain-png.github.io/search_CompIntel/">Search &amp; AI</a>
+        <a class="current" href="index.html">Security</a>
+      </nav>
+    </div>
+    <a class="archive-link" href="archive.html">📁 Archive</a>
+  </div>
+  <div class="meta-row">
+    <span class="meta-chip">72-hour pulse</span>
+    <span class="meta-chip">August 30 – September 2, 2026</span>
+    <span class="meta-chip updated">Last updated: 2026-09-02 09:00 UTC</span>
+    <span class="meta-chip">Refreshed every weekday morning</span>
+  </div>
+</header>
+<div class="filter-bar">
+  <span class="filter-label">Show</span>
+  <button class="filter-pill active" data-vendor="crowdstrike">CrowdStrike</button>
+  <button class="filter-pill active" data-vendor="sentinelone">SentinelOne</button>
+  <button class="filter-pill active" data-vendor="paloalto">Palo Alto</button>
+  <button class="filter-pill active" data-vendor="microsoft">Microsoft</button>
+  <button class="filter-pill active" data-vendor="splunk">Splunk</button>
+  <button class="filter-pill active" data-vendor="googlesecops">Google SecOps</button>
+  <button class="filter-pill reset" id="reset-filters">Reset</button>
+  <span class="filter-count" id="filter-count">6 of 6 vendors</span>
+</div>
+<main class="container">
+  <div class="quick-read">
+    <div class="label">Quick read</div>
+    <p>This window belongs to two vendors. <strong>CrowdStrike</strong>'s Fal.Con 2026 keynote stack — Project QuiltWorks third-party ingest, Falcon Onum pipeline economics, Falcon on Google Cloud and Snowflake, SafeMind frontier models with NVIDIA — is a coordinated push to neutralize the openness and cost objections Elastic raises against Falcon Next-Gen SIEM. <strong>Palo Alto Networks</strong> paired a blowout Q4 FY26 (NGS ARR $9.10B, +63%) with the Console acquisition and the notable disclosure that half its new observability logos now attach XSIAM. SentinelOne, Microsoft, Splunk/Cisco and Google SecOps were all quiet. The through-line is <strong>agentic AI plus data-pipeline cost control</strong> as the new SIEM battleground — and both active vendors are now competing on Elastic's home turf of open ingest and data economics rather than ceding it.</p>
+  </div>
+
+  <div class="section-label">At a glance</div>
+  <div class="summary-section">
+    <div class="section-header"><span>Vendor</span><span>Key development</span><span>Watch signal</span></div>
+
+    <div class="summary-row" data-vendor="crowdstrike">
+      <span class="vendor-name">CrowdStrike</span>
+      <span>Fal.Con 2026: QuiltWorks expanded to 12 third-party telemetry vendors into Next-Gen SIEM, Falcon on Google Cloud and Snowflake, Falcon IQ (50+ AI agents), SafeMind frontier models with NVIDIA.</span>
+      <span class="watch-signal">Attacks Elastic's three core differentiators at once — open ingest, cost-per-GB, and BYO-cloud flexibility.</span>
+    </div>
+
+    <div class="summary-row no-update" data-vendor="sentinelone">
+      <span class="vendor-name">SentinelOne</span>
+      <span class="no-update-text">No updates</span>
+      <span class="no-update-text">—</span>
+    </div>
+
+    <div class="summary-row" data-vendor="paloalto">
+      <span class="vendor-name">Palo Alto Networks</span>
+      <span>Q4/FY26: revenue $3.41B (+34%), NGS ARR $9.10B (+63%); acquired Console, an AI-native agentic platform. 50% of 2H observability net-new logos included an XSIAM cross-sell.</span>
+      <span class="watch-signal">Landing observability deals and attaching SIEM — a direct assault on Elastic's cross-solution motion.</span>
+    </div>
+
+    <div class="summary-row no-update" data-vendor="microsoft">
+      <span class="vendor-name">Microsoft</span>
+      <span class="no-update-text">No updates</span>
+      <span class="no-update-text">—</span>
+    </div>
+
+    <div class="summary-row no-update" data-vendor="splunk">
+      <span class="vendor-name">Splunk / Cisco</span>
+      <span class="no-update-text">No updates</span>
+      <span class="no-update-text">—</span>
+    </div>
+
+    <div class="summary-row no-update" data-vendor="googlesecops">
+      <span class="vendor-name">Google SecOps</span>
+      <span class="no-update-text">No updates</span>
+      <span class="no-update-text">—</span>
+    </div>
+  </div>
+
+  <div class="section-label">Vendor details</div>
+  <div class="vendors-grid">
+
+    <div class="vendor-card" data-vendor="crowdstrike">
+      <div class="card-header">
+        <span class="card-vendor-name">CrowdStrike</span>
+        <span class="status-badge active">Active</span>
+      </div>
+      <div class="card-body">
+        <p>Fal.Con 2026 (Aug 31 – Sep 3, Mandalay Bay, ~10,000 attendees) landed squarely in the window and produced the densest news of any vendor.</p>
+        <p><strong>Directly SIEM-relevant:</strong> Project QuiltWorks expanded to pipe real-time telemetry from 12 third-party vendors — Zscaler, Netskope, ExtraHop, Rubrik, Abnormal AI, Picus, SafeBreach, AttackIQ, HackerOne, Horizon3, Artemis, Terra — into Falcon Next-Gen SIEM, with Falcon Onum pipelines claimed to cut storage costs up to 50%. SailPoint pushed identity governance data into Next-Gen SIEM.</p>
+        <p><strong>Platform-level:</strong> Falcon now runs on Google Cloud infrastructure and is listed on Snowflake Marketplace, drawing down against pre-committed Snowflake capacity. CrowdStrike also launched Falcon IQ (50+ AI agents), Falcon Guardian for AI-agent runtime security, a Cyber Superintelligence Lab, and SafeMind — frontier security models (Red Tempest offensive, Blue Solano defensive) built with NVIDIA Nemotron. The Optiv partnership crossed $2B total contract value.</p>
+        <p class="signal">CrowdStrike is attacking Elastic's core differentiators simultaneously — open third-party data ingest (QuiltWorks), cost-per-GB economics (Onum pipeline, "50% storage reduction"), and data-residency/BYO-cloud flexibility (Google Cloud plus Snowflake) — eroding the "open, cheap, bring-your-own-data SIEM" argument Elastic has used against Falcon NG-SIEM's closed-ecosystem reputation.</p>
+      </div>
+    </div>
+
+    <div class="vendor-card no-update" data-vendor="sentinelone">
+      <div class="card-header">
+        <span class="card-vendor-name">SentinelOne</span>
+        <span class="status-badge quiet">Quiet</span>
+      </div>
+      <div class="card-body">
+        <p class="no-update-msg">No updates in the past 72 hours.</p>
+        <p>Context outside the window: governed closed-loop response across the Singularity platform (Aug 3) pairing Purple AI and Hyperautomation with human-approval boundaries. The $225M Observo AI acquisition dates to Sept 2025 — nearly a year old and frequently mis-dated in search results.</p>
+      </div>
+    </div>
+
+    <div class="vendor-card" data-vendor="paloalto">
+      <div class="card-header">
+        <span class="card-vendor-name">Palo Alto Networks</span>
+        <span class="status-badge active">Active</span>
+      </div>
+      <div class="card-body">
+        <p>On September 1 PANW reported Q4/FY26 results: revenue $3.41B, up 34% year over year; Next-Gen Security ARR $9.10B, up 63%; nearly $1B in net-new NGS ARR in a single quarter. It disclosed that 50% of observability net-new logos in 2H FY26 included an XSIAM cross-sell.</p>
+        <p>The same day it announced the acquisition of <strong>Console</strong>, an AI-native agentic platform (terms undisclosed), to embed natural-language-driven agentic workflows into Cortex.</p>
+        <p class="signal">The XSIAM-plus-observability cross-sell datapoint is the sharpest competitive signal here — PANW is now explicitly landing observability deals and attaching SIEM, a direct assault on Elastic's own search-platform-spanning-security-and-observability motion.</p>
+      </div>
+    </div>
+
+    <div class="vendor-card no-update" data-vendor="microsoft">
+      <div class="card-header">
+        <span class="card-vendor-name">Microsoft</span>
+        <span class="status-badge quiet">Quiet</span>
+      </div>
+      <div class="card-body">
+        <p class="no-update-msg">No updates in the past 72 hours.</p>
+        <p>The August Sentinel roundup — AI-powered playbook generator GA, Codeless Connector Framework nested-API preview, multi-account ingestion GA for CrowdStrike/Auth0/Salesforce, UEBA anomaly insights, MDTI convergence completion, Defender Experts MDR extended to third-party Sentinel data — was published Aug 27–28, two to three days before the window opens.</p>
+      </div>
+    </div>
+
+    <div class="vendor-card no-update" data-vendor="splunk">
+      <div class="card-header">
+        <span class="card-vendor-name">Splunk / Cisco</span>
+        <span class="status-badge quiet">Quiet</span>
+      </div>
+      <div class="card-body">
+        <p class="no-update-msg">No updates in the past 72 hours.</p>
+        <p>Note that search results repeatedly surface the ES 8.2 Essentials/Premier Edition launch as recent news — that was .conf25 in Boston on Sept 9, 2025, a full year outside the window. The current shipping line is ES 8.4.</p>
+      </div>
+    </div>
+
+    <div class="vendor-card no-update" data-vendor="googlesecops">
+      <div class="card-header">
+        <span class="card-vendor-name">Google SecOps</span>
+        <span class="status-badge quiet">Quiet</span>
+      </div>
+      <div class="card-body">
+        <p class="no-update-msg">No updates in the past 72 hours.</p>
+        <p>The only Aug 31 activity was operational: SecOps service incidents in the US multiregion (data normalization and detection delays, BigQuery export delays) and the scheduled end of the SecOps TINA agent trial.</p>
+        <p>Worth flagging as context: Google Cloud is the named infrastructure partner in CrowdStrike's Aug 31 Falcon-on-Google-Cloud announcement — Google is hosting a direct SIEM competitor's platform.</p>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="section-label">Further reading</div>
+  <div class="further-reading">
+    <div class="fr-header">Sources</div>
+    <div class="fr-body">
+
+      <div class="fr-vendor" data-vendor="crowdstrike">
+        <div class="fr-vendor-name">CrowdStrike</div>
+        <a class="fr-link" href="https://www.crowdstrike.com/en-us/press-releases/crowdstrike-expands-project-quiltworks-across-tech-ecosystem-to-secure-frontier-ai-risk/" target="_blank">CrowdStrike expands Project QuiltWorks across the tech ecosystem</a>
+        <a class="fr-link" href="https://www.crowdstrike.com/en-us/press-releases/crowdstrike-google-announce-falcon-platform-on-google-cloud/" target="_blank">CrowdStrike and Google announce the Falcon platform on Google Cloud</a>
+        <a class="fr-link" href="https://ir.crowdstrike.com/news-releases/news-release-details/crowdstrike-brings-falcon-platform-snowflake-unifying-security" target="_blank">CrowdStrike brings the Falcon platform to Snowflake</a>
+        <a class="fr-link" href="https://www.crowdstrike.com/en-us/press-releases/crowdstrike-launches-frontier-models-for-cybersecurity-with-nvidia/" target="_blank">CrowdStrike launches frontier models for cybersecurity, created with NVIDIA</a>
+        <a class="fr-link" href="https://siliconangle.com/2026/08/31/crowdstrike-launches-falcon-iq-as-falcon-lands-on-google-cloud-and-snowflake/" target="_blank">SiliconANGLE: Falcon IQ launches as Falcon lands on Google Cloud and Snowflake</a>
+        <a class="fr-link" href="https://www.globenewswire.com/news-release/2026/08/31/3353338/0/en/sailpoint-announces-integration-with-crowdstrike-falcon-next-gen-siem.html" target="_blank">SailPoint announces integration with CrowdStrike Falcon Next-Gen SIEM</a>
+      </div>
+
+      <div class="fr-vendor" data-vendor="paloalto">
+        <div class="fr-vendor-name">Palo Alto Networks</div>
+        <a class="fr-link" href="https://www.prnewswire.com/news-releases/palo-alto-networks-reports-fiscal-fourth-quarter-and-fiscal-year-2026-financial-results-302866744.html" target="_blank">Palo Alto Networks reports Q4 and FY2026 financial results</a>
+        <a class="fr-link" href="https://www.paloaltonetworks.com/company/press/2026/palo-alto-networks-acquires-console-to-agentify-security" target="_blank">Palo Alto Networks acquires Console to agentify security</a>
+        <a class="fr-link" href="https://www.securityweek.com/palo-alto-networks-acquires-ai-agent-platform-console/amp/" target="_blank">SecurityWeek: Palo Alto Networks acquires AI agent platform Console</a>
+        <a class="fr-link" href="https://www.investing.com/news/company-news/palo-alto-networks-q4-fy2026-slides-record-growth-margin-concerns-93CH-4884708" target="_blank">Q4 FY2026 slides: record growth, margin concerns</a>
+      </div>
+
+    </div>
+  </div>
+</main>
+<footer class="site-footer">
+  <span>Elastic — Internal competitive intelligence · Not for external distribution</span>
+  <span>Regenerated every weekday morning · <a href="mailto:frank.swain@elastic.co">frank.swain@elastic.co</a> · <a href="archive.html">View archive</a></span>
+</footer>
+<script>
+  const STORAGE_KEY = 'compintel-security-hidden-vendors';
+  const pills = document.querySelectorAll('.filter-pill[data-vendor]');
+  const resetBtn = document.getElementById('reset-filters');
+  const countEl = document.getElementById('filter-count');
+  const TOTAL = pills.length;
+  function getHidden() { try { return new Set(JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]')); } catch { return new Set(); } }
+  function saveHidden(hidden) { try { localStorage.setItem(STORAGE_KEY, JSON.stringify([...hidden])); } catch {} }
+  function applyFilter(hidden) {
+    pills.forEach(p => p.classList.toggle('active', !hidden.has(p.dataset.vendor)));
+    document.querySelectorAll('[data-vendor]').forEach(el => { if (el.classList.contains('filter-pill')) return; el.classList.toggle('vendor-hidden', hidden.has(el.dataset.vendor)); });
+    const visible = TOTAL - [...hidden].filter(v => [...pills].some(p => p.dataset.vendor === v)).length;
+    countEl.textContent = `${visible} of ${TOTAL} vendor${visible === 1 ? '' : 's'}`;
+  }
+  pills.forEach(pill => { pill.addEventListener('click', () => { const hidden = getHidden(); const v = pill.dataset.vendor; if (hidden.has(v)) { hidden.delete(v); } else { hidden.add(v); } saveHidden(hidden); applyFilter(hidden); }); });
+  resetBtn.addEventListener('click', () => { saveHidden(new Set()); applyFilter(new Set()); });
+  applyFilter(getHidden());
+</script>
+</body>
+</html>

@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Archive — Security Competitive Intelligence</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Mono&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --elastic-blue: #0B64DD;
+    --light-teal: #48EFCF;
+    --developer-blue: #101C3F;
+    --dark-ink: #1C1E23;
+    --ink: #343741;
+    --light-grey: #F5F7FA;
+    --font: 'Inter', Arial, sans-serif;
+    --mono: 'Space Mono', monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: var(--font); background: var(--light-grey); color: var(--ink); line-height: 1.6; min-height: 100vh; }
+
+  .site-header { background: var(--elastic-blue); padding: 28px 48px 24px; color: white; }
+  .header-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+  .header-top a.back-link {
+    font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.8);
+    text-decoration: none; border: 1px solid rgba(255,255,255,0.35);
+    padding: 5px 12px; border-radius: 4px; white-space: nowrap; margin-top: 4px;
+    transition: background 0.15s;
+  }
+  .header-top a.back-link:hover { background: rgba(255,255,255,0.15); color: white; }
+  .site-header h1 { font-size: 26px; font-weight: 800; letter-spacing: -0.5px; }
+  .site-header .subtitle { font-size: 13px; opacity: 0.75; margin-top: 3px; }
+
+  .container { max-width: 860px; margin: 0 auto; padding: 40px 24px; }
+
+  .section-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.2px; color: var(--elastic-blue); margin-bottom: 16px; }
+  .section-label::after { content: ''; display: block; width: 60px; height: 3px; background: var(--light-teal); margin-top: 6px; }
+
+  /* ── Archive list ── */
+  .archive-card {
+    background: white; border-radius: 8px; border: 1.5px solid var(--developer-blue);
+    overflow: hidden; margin-bottom: 12px;
+  }
+  .archive-card a {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 16px 20px; text-decoration: none; color: inherit;
+    transition: background 0.15s; gap: 16px;
+  }
+  .archive-card a:hover { background: var(--light-grey); }
+  .archive-date {
+    font-family: var(--mono); font-size: 13px; font-weight: 600;
+    color: var(--dark-ink); white-space: nowrap;
+  }
+  .archive-label {
+    font-size: 13px; color: var(--ink); flex: 1;
+  }
+  .archive-arrow { color: var(--elastic-blue); font-size: 16px; opacity: 0.5; }
+
+  /* ── Loading / error states ── */
+  .state-msg {
+    text-align: center; padding: 60px 24px;
+    color: #aaa; font-size: 14px;
+  }
+  .state-msg .icon { font-size: 32px; display: block; margin-bottom: 12px; }
+  .spinner {
+    width: 28px; height: 28px; border: 3px solid #e0e0e0;
+    border-top-color: var(--elastic-blue); border-radius: 50%;
+    animation: spin 0.7s linear infinite; margin: 0 auto 16px;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .empty-note {
+    background: white; border-radius: 8px; border: 1.5px solid #e0e6f0;
+    padding: 20px 24px; font-size: 13.5px; color: var(--ink);
+    margin-bottom: 24px; line-height: 1.6;
+  }
+  .empty-note strong { color: var(--dark-ink); }
+
+  /* ── Footer ── */
+  .site-footer { background: var(--developer-blue); color: rgba(255,255,255,0.45); padding: 18px 48px; font-size: 11.5px; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-top: 40px; }
+  .site-footer a { color: var(--light-teal); text-decoration: none; }
+  .site-footer a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-top">
+    <div>
+      <h1>Report archive</h1>
+      <p class="subtitle">Security competitive intelligence — all past 72-hour pulse reports</p>
+    </div>
+    <a class="back-link" href="index.html">← Latest report</a>
+  </div>
+</header>
+
+<main class="container">
+  <div class="section-label">Past reports</div>
+
+  <div class="empty-note">
+    Reports are saved here automatically each weekday morning. <strong>The first archived snapshot will appear after the next scheduled run.</strong> Each entry links directly to the full report for that date.
+  </div>
+
+  <div id="archive-list">
+    <div class="state-msg">
+      <div class="spinner"></div>
+      Loading archive…
+    </div>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <span>Elastic — Internal competitive intelligence · Not for external distribution</span>
+  <span><a href="index.html">Latest report</a> · <a href="mailto:frank.swain@elastic.co">frank.swain@elastic.co</a></span>
+</footer>
+
+<script>
+  const OWNER = 'frankswain-png';
+  const REPO  = 'sec_CompIntel';
+  const API   = `https://api.github.com/repos/${OWNER}/${REPO}/contents/archive`;
+  const BASE  = `https://${OWNER}.github.io/${REPO}/archive/`;
+
+  function formatDate(filename) {
+    // filename like "2026-08-04.html"
+    const match = filename.match(/^(\d{4})-(\d{2})-(\d{2})\.html$/);
+    if (!match) return filename;
+    const [, y, m, d] = match;
+    const date = new Date(`${y}-${m}-${d}T12:00:00`);
+    return date.toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+  }
+
+  function dayLabel(filename) {
+    const match = filename.match(/^(\d{4}-\d{2}-\d{2})\.html$/);
+    return match ? match[1] : filename.replace('.html', '');
+  }
+
+  async function loadArchive() {
+    const el = document.getElementById('archive-list');
+    try {
+      const res = await fetch(API);
+      if (res.status === 404) {
+        el.innerHTML = `<div class="state-msg"><span class="icon">📭</span>No archived reports yet — they'll appear here after the first scheduled run.</div>`;
+        return;
+      }
+      if (!res.ok) throw new Error(`GitHub API error: ${res.status}`);
+      const files = await res.json();
+
+      const htmlFiles = files
+        .filter(f => f.name.match(/^\d{4}-\d{2}-\d{2}\.html$/))
+        .sort((a, b) => b.name.localeCompare(a.name)); // newest first
+
+      if (htmlFiles.length === 0) {
+        el.innerHTML = `<div class="state-msg"><span class="icon">📭</span>No archived reports yet — they'll appear here after the first scheduled run.</div>`;
+        return;
+      }
+
+      el.innerHTML = htmlFiles.map(f => `
+        <div class="archive-card">
+          <a href="${BASE}${f.name}" target="_blank">
+            <span class="archive-date">${dayLabel(f.name)}</span>
+            <span class="archive-label">${formatDate(f.name)}</span>
+            <span class="archive-arrow">→</span>
+          </a>
+        </div>
+      `).join('');
+
+    } catch (err) {
+      el.innerHTML = `<div class="state-msg"><span class="icon">⚠️</span>Couldn't load archive.<br><small>${err.message}</small></div>`;
+    }
+  }
+
+  loadArchive();
+</script>
+
+</body>
+</html>
