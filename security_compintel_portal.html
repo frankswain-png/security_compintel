@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Security competitive intelligence — 72-hour pulse</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Mono&display=swap" rel="stylesheet">
+<style>
+:root{
+  --elastic-blue:#0B64DD; --light-teal:#48EFCF; --light-poppy:#FF957D;
+  --pink:#F04E98; --yellow:#FEC514; --midnight:#153385; --developer-blue:#101C3F;
+  --dark-ink:#1C1E23; --ink:#343741; --light-grey:#F5F7FA; --white:#FFFFFF;
+  --font-body:'Inter',Arial,sans-serif; --font-code:'Space Mono',monospace;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--white);color:var(--ink);font-family:var(--font-body);font-size:15px;line-height:1.6}
+.wrap{max-width:1120px;margin:0 auto;padding:0 24px 72px}
+header.masthead{background:var(--elastic-blue);color:var(--white);padding:40px 0 34px;margin-bottom:32px}
+header.masthead .wrap{padding-bottom:0}
+.eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;opacity:.85;margin:0 0 8px}
+h1{font-family:var(--font-body);font-weight:700;font-size:34px;line-height:1.2;margin:0 0 18px}
+.meta-chips{display:flex;flex-wrap:wrap;gap:10px}
+.meta-chip{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.3);border-radius:999px;padding:5px 14px;font-size:13px;font-weight:500}
+h2{font-family:var(--font-body);font-weight:700;font-size:22px;color:var(--dark-ink);margin:44px 0 6px}
+h2 + .rule{display:block;width:68px;height:3px;background:var(--light-teal);border-radius:2px;margin-bottom:18px}
+h3{font-weight:700;font-size:18px;color:var(--dark-ink);margin:0}
+.tldr{background:var(--light-grey);border-left:4px solid var(--elastic-blue);border-radius:0 8px 8px 0;padding:20px 24px;margin:0}
+.tldr p{margin:0}
+.filter-bar{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 22px}
+.filter-btn{font-family:var(--font-body);font-size:13px;font-weight:500;color:var(--elastic-blue);background:var(--white);border:1px solid var(--elastic-blue);border-radius:999px;padding:6px 15px;cursor:pointer;transition:background .15s,color .15s}
+.filter-btn:hover{background:var(--light-grey)}
+.filter-btn.is-active{background:var(--elastic-blue);color:var(--white)}
+table.summary{width:100%;border-collapse:collapse;margin-top:4px}
+table.summary th{text-align:left;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink);border-bottom:2px solid var(--developer-blue);padding:0 14px 10px}
+table.summary td{border-bottom:1px solid #E3E7EE;padding:16px 14px;vertical-align:top}
+.summary-row td:first-child{font-weight:600;color:var(--dark-ink);white-space:nowrap}
+.summary-row.no-update td{color:#6B7280}
+.watch-signal{display:block;font-size:13.5px;color:var(--midnight);font-weight:500}
+.no-update-text{color:#6B7280;font-style:italic}
+.vendor-card{border:1.5px solid var(--developer-blue);border-radius:10px;background:var(--white);padding:24px 26px;margin-bottom:20px}
+.vendor-card.no-update{border-color:#D5DAE3;background:var(--light-grey)}
+.vendor-card-head{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:6px}
+.vendor-card .teal-rule{display:block;width:60px;height:3px;background:var(--light-teal);border-radius:2px;margin:0 0 14px}
+.vendor-card p{margin:0 0 12px}
+.vendor-card p:last-child{margin-bottom:0}
+.status-badge{font-size:11px;letter-spacing:.09em;text-transform:uppercase;font-weight:700;border-radius:999px;padding:4px 11px;white-space:nowrap}
+.status-badge.active{background:var(--light-teal);color:var(--dark-ink)}
+.status-badge.quiet{background:#E3E7EE;color:#5A6070}
+.no-update-msg{color:#5A6070}
+.reading-block{border-top:1px solid #E3E7EE;padding:16px 0}
+.reading-block h4{margin:0 0 8px;font-size:15px;color:var(--dark-ink)}
+.reading-block ul{margin:0;padding-left:20px}
+.reading-block li{margin-bottom:6px}
+a{color:var(--elastic-blue)}
+.solution-nav{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 0}
+.solution-nav a,.archive-links a{display:inline-block;font-size:13px;text-decoration:none;color:var(--elastic-blue);border:1px solid #D5DAE3;border-radius:999px;padding:6px 15px;background:var(--white)}
+.solution-nav a:hover,.archive-links a:hover{background:var(--light-grey)}
+.archive-links{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 0}
+footer.page-foot{border-top:1px solid #E3E7EE;margin-top:48px;padding-top:20px;font-size:13px;color:#6B7280}
+.notice{border:1px solid var(--yellow);background:#FFF9E6;border-radius:8px;padding:14px 18px;font-size:13.5px;color:var(--dark-ink);margin:0 0 26px}
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="wrap">
+    <p class="eyebrow">Elastic Security · competitive intelligence</p>
+    <h1>Security competitive intelligence — 72-hour pulse</h1>
+    <div class="meta-chips">
+      <span class="meta-chip">1 Sep – 4 Sep 2026</span>
+      <span class="meta-chip">Last updated: 04 Sep 2026, 09:00 UTC</span>
+      <span class="meta-chip">6 vendors tracked · 3 active</span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <div class="notice">
+    <strong>Production note for this edition:</strong> the previous edition of the portal could not be opened by this run — its path sits inside a protected macOS application-support location that cannot be mounted, so the file was rebuilt from the house-style specification rather than edited in place. Structure, class names and <code>data-vendor</code> slugs follow the spec, but the original CSS and JavaScript could not be carried across verbatim. Restore the prior stylesheet before publishing, or move the portal to a mountable project folder so future runs can edit in place.
+  </div>
+
+  <h2>TLDR</h2><span class="rule"></span>
+  <p class="tldr"><strong>CrowdStrike</strong> dominated the window with Fal.Con 2026 at Mandalay Bay on 1–2 September, launching a Cyber Superintelligence Lab, an expanded <strong>OpenAI</strong> partnership that puts GPT-5.6 Cyber inside Falcon, an Agentic Identity Provider for AI agents, real-time open-source supply chain blocking at the endpoint, and — most relevant to us — certified data pipelines built on Falcon Onum that CrowdStrike claims cut storage costs by up to 50%. <strong>Splunk</strong> shipped Enterprise Security 8.7.0 on 2 September with an AI SOC Analyst that executes permitted response actions, plus Detection Builder and Connector Builder agents and MCP access to investigation context. <strong>Palo Alto Networks</strong> announced on 1 September that it had acquired <strong>Console</strong>, an AI-agent operations platform, for undisclosed terms, folding it into Cortex. The common thread across all three is <strong>agentic SOC automation moving from assistive to executing</strong>, paired with <strong>ingest-tier cost control</strong> as the commercial wedge — the two axes on which Elastic Security is most often compared. <strong>SentinelOne</strong>, <strong>Microsoft</strong> and <strong>Google SecOps</strong> were quiet; watch SentinelOne's LABScon on 16–19 September, CrowdStrike's investor appearances on 10 September, and the Gartner SIEM Magic Quadrant refresh expected later in the autumn.</p>
+
+  <h2>Vendor summary</h2><span class="rule"></span>
+
+  <div class="filter-bar" id="filterBar">
+    <button class="filter-btn is-active" data-filter="all">All vendors</button>
+    <button class="filter-btn" data-filter="crowdstrike">CrowdStrike</button>
+    <button class="filter-btn" data-filter="sentinelone">SentinelOne</button>
+    <button class="filter-btn" data-filter="paloalto">Palo Alto Networks</button>
+    <button class="filter-btn" data-filter="microsoft">Microsoft</button>
+    <button class="filter-btn" data-filter="splunk">Splunk (Cisco)</button>
+    <button class="filter-btn" data-filter="googlesecops">Google SecOps</button>
+  </div>
+
+  <table class="summary">
+    <thead>
+      <tr><th style="width:19%">Vendor</th><th style="width:50%">Key development</th><th style="width:31%">Watch signal</th></tr>
+    </thead>
+    <tbody>
+      <tr class="summary-row" data-vendor="crowdstrike">
+        <td>CrowdStrike</td>
+        <td>Fal.Con 2026 ran 1–2 September at Mandalay Bay. CrowdStrike announced the Cyber Superintelligence Lab, an expanded OpenAI partnership bringing GPT-5.6 Cyber to Falcon and Falcon Guardian coverage to Codex agents, the Agentic Identity Provider, Real-Time Supply Chain Attack Protection blocking malicious npm and PyPI packages at the endpoint, and the next evolution of the Agentic SOC with multi-agent investigations over a shared context layer. Falcon Next-Gen SIEM added ingest from Abnormal AI, ExtraHop, Netskope, Rubrik, Zscaler and others, plus a CrowdStrike-managed MCP server for third-party agents.</td>
+        <td><span class="watch-signal">Certified pipelines on Falcon Onum, pitched at up to 50% lower storage cost, take the ingest-economics argument straight to Elastic's strongest ground — expect it in every Next-Gen SIEM displacement cycle this quarter.</span></td>
+      </tr>
+      <tr class="summary-row no-update" data-vendor="sentinelone">
+        <td>SentinelOne</td>
+        <td><span class="no-update-text">No significant updates in the past 72 hours.</span></td>
+        <td><span class="no-update-text">—</span></td>
+      </tr>
+      <tr class="summary-row" data-vendor="paloalto">
+        <td>Palo Alto Networks</td>
+        <td>On 1 September Palo Alto Networks announced it had acquired Console, an AI-native platform whose agents perform operational tasks such as access changes, account provisioning and offboarding, with recent expansion into security workflows. Financial terms were not disclosed. The technology will be folded into Cortex to investigate alerts, prioritise work and take action across customer environments.</td>
+        <td><span class="watch-signal">Palo Alto is buying execution rather than building it, which shortens the gap to autonomous response in XSIAM and raises the bar on what "agentic" has to mean in Elastic Security bake-offs.</span></td>
+      </tr>
+      <tr class="summary-row no-update" data-vendor="microsoft">
+        <td>Microsoft</td>
+        <td><span class="no-update-text">No significant updates in the past 72 hours.</span></td>
+        <td><span class="no-update-text">—</span></td>
+      </tr>
+      <tr class="summary-row" data-vendor="splunk">
+        <td>Splunk (Cisco)</td>
+        <td>Splunk Enterprise Security 8.7.0 shipped on 2 September. The headline is the AI SOC Analyst, which uses investigation and response-plan context to automatically execute permitted actions and recommend next steps where analyst approval is required. The release also adds a Detection Builder Agent with improved SPL guidance and validation, a Connector Builder Agent that generates, tests and refines connectors, MCP access to investigation context, and a reworked analyst queue with team-based queues and saved views.</td>
+        <td><span class="watch-signal">Splunk has crossed from recommending to acting inside the incident workflow; Elastic Security's attack discovery and automation story now needs an explicit answer on guardrails and approval boundaries, not just capability.</span></td>
+      </tr>
+      <tr class="summary-row no-update" data-vendor="googlesecops">
+        <td>Google SecOps</td>
+        <td><span class="no-update-text">No significant updates in the past 72 hours.</span></td>
+        <td><span class="no-update-text">—</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>Vendor detail</h2><span class="rule"></span>
+
+  <div class="vendor-card" data-vendor="crowdstrike">
+    <div class="vendor-card-head"><h3>CrowdStrike — Falcon, Next-Gen SIEM</h3><span class="status-badge active">Active</span></div>
+    <span class="teal-rule"></span>
+    <p>Fal.Con 2026 took over Mandalay Bay on 1–2 September and produced the densest announcement block of the window. On 1 September CrowdStrike established the Cyber Superintelligence Lab, positioned as a frontier AI research organisation for cyberdefence and AI safety, uniting its AI researchers, offensive operators and incident responders on Falcon platform data and adversary intelligence. On 2 September it expanded its OpenAI partnership on two fronts: securing OpenAI Codex agents with Falcon Guardian, and bringing OpenAI's GPT-5.6 Cyber onto the Falcon platform starting with the Frontier AI Readiness and Resilience (FAIRR) service. Customer and partner awards the same day named NVIDIA, United Airlines, Salesforce and AWS among recipients.</p>
+    <p><strong>Directly SIEM-relevant:</strong> the next evolution of the Agentic SOC delivers coordinated multi-agent investigations running simultaneously across endpoint, identity, SaaS, cloud and network, including threats against enterprise AI systems — model abuse, prompt injection and exfiltration through AI assistants. The enabling piece is a shared context layer built on Enterprise Graph, so every agent works from one memory of the environment. Certified data pipelines built on Falcon Onum streaming technology filter noise at ingestion and run detection inside the pipeline, which CrowdStrike says can reduce data storage costs by up to 50%. Falcon Next-Gen SIEM added ingest from Abnormal AI, Artemis Security, AttackIQ, ExtraHop, HackerOne, Horizon3, Netskope, Picus Security, Rubrik, SafeBreach, Terra Security and Zscaler, and third-party agents can now reach Falcon tools through a CrowdStrike-managed MCP server. <strong>Platform-level:</strong> the Agentic Identity Provider gives each AI agent a trusted identity tied to the humans and workloads behind it with just-in-time least-privilege access, positioning Falcon Next-Gen Identity Security as the identity control plane for the agentic enterprise. Real-Time Supply Chain Attack Protection intercepts <code>npm install</code> and <code>pip install</code> transactions across npm and PyPI on Windows, macOS and Linux, blocking malicious packages before embedded code runs — and extends to every endpoint where agentic applications run, not only developer workstations. The Falcon platform was also brought to the Anthropic Claude marketplace.</p>
+    <p><strong>Watch signal:</strong> two of these land squarely on Elastic Security's competitive axes. The Onum-based certified pipelines turn ingest-cost control into a CrowdStrike feature rather than an Elastic differentiator, and the managed MCP server plus the broadened third-party connector list attacks the openness argument Elastic has used against Falcon's historically endpoint-anchored data model. Expect both to appear in Next-Gen SIEM displacement conversations this quarter; the counter-position is total cost at retention scale and the absence of a proprietary agent requirement, not feature parity on agents.</p>
+    <p>Standing items: CrowdStrike presents at the Citi Global TMT Conference and the Goldman Sachs Communacopia + Technology Conference, both on 10 September 2026 — watch for Next-Gen SIEM ARR disclosure and any Onum attach-rate colour. Out of window for context: Falcon Next-Gen SIEM support for Microsoft Defender for Endpoint was announced on 22 March 2026, which remains the clearest signal of CrowdStrike's willingness to ingest a rival's endpoint telemetry. Open question: whether certified pipelines are licensed separately from Next-Gen SIEM ingest or bundled, since that determines how real the 50% storage claim is in a competitive TCO model.</p>
+  </div>
+
+  <div class="vendor-card no-update" data-vendor="sentinelone">
+    <div class="vendor-card-head"><h3>SentinelOne — Singularity</h3><span class="status-badge quiet">Quiet</span></div>
+    <span class="teal-rule"></span>
+    <p class="no-update-msg">Nothing in the 1–4 September window. The most recent substantive event sits just outside it: SentinelOne reported second-quarter fiscal 2027 results on 27 August 2026, with total revenue up 21% to $292 million and annualised recurring revenue up 22% to $1,218 million as of 31 July 2026 — the first full quarter above the $1.2 billion ARR mark. Also outside the window but strategically relevant: the company closed acquisitions of Prompt Security, for AI usage control, and Observo AI, for AI-driven data pipelines, both of which fold into the Singularity platform and give SentinelOne its own answer to the ingest-tier cost narrative CrowdStrike pushed at Fal.Con this week. Earlier in 2026 it unveiled new AI security offerings at RSAC on 23 March, was named a Leader in the 2026 Gartner Magic Quadrant for Endpoint Protection Platforms for a sixth consecutive year, and won a 2026 Google Cloud Partner of the Year award for Google Threat Intelligence on 22 April. The next scheduled catalyst is LABScon, the company's invite-only research conference, returning for a fifth year at the Omni Scottsdale Resort &amp; Spa at Montelucia on 16–19 September 2026 — historically a source of original threat research rather than product news, so expect intelligence-led positioning rather than platform announcements. Research caution for this vendor: SentinelOne's fiscal year runs a year ahead of the calendar, so "fiscal 2026" press releases are dated 2025 and surface readily in searches for current news — always check the issue date rather than the fiscal-year label.</p>
+  </div>
+
+  <div class="vendor-card" data-vendor="paloalto">
+    <div class="vendor-card-head"><h3>Palo Alto Networks — Cortex XSIAM / XDR</h3><span class="status-badge active">Active</span></div>
+    <span class="teal-rule"></span>
+    <p>On 1 September 2026 Palo Alto Networks announced it had acquired Console, described as an AI-native platform that lets AI agents carry out operational tasks. Financial terms were not disclosed. Console's background is in automating IT operations — access changes, account provisioning, employee offboarding — with more recent expansion into security workflows. Palo Alto said the technology will become part of Cortex, where it is intended to help security teams investigate activity, prioritise work and take action across their environments, with named applications in alert investigation, prioritisation and incident handling.</p>
+    <p>The second-order read is about sequencing rather than technology. Cortex XSIAM already markets autonomous security operations; what Console supplies is the execution layer — the connective tissue that turns a decision into a change in a production system — and Palo Alto has chosen to buy it rather than build it. That compresses the timeline for XSIAM moving from "recommends an action" to "performs the action", and it arrived in the same 48 hours as CrowdStrike's multi-agent Agentic SOC and Splunk's AI SOC Analyst. Three of the six vendors tracked here moved on autonomous execution in a single window, which is a category shift rather than three coincidences.</p>
+    <p><strong>Watch signal:</strong> the competitive question in Elastic Security evaluations is shifting from detection quality to what an agent is permitted to do unsupervised and who is accountable when it acts wrongly. Elastic's position should lead on transparency of agent reasoning, auditability of automated actions and customer control over approval boundaries — areas where an acquired IT-automation stack bolted into Cortex is likely to be weakest in its first release cycles.</p>
+    <p>Standing items: no purchase price, close date or product timeline has been disclosed, so the practical question is when Console capability actually appears in a Cortex release rather than a roadmap slide. No Cortex XSIAM product release news landed in this window separately from the acquisition. Research caution: Palo Alto's original XSIAM launch (February 2022) and its general-availability announcement later that year rank highly in search and read as current — verify the year on any XSIAM "launch" or "next-generation SOC" headline.</p>
+  </div>
+
+  <div class="vendor-card no-update" data-vendor="microsoft">
+    <div class="vendor-card-head"><h3>Microsoft — Sentinel / Defender XDR</h3><span class="status-badge quiet">Quiet</span></div>
+    <span class="teal-rule"></span>
+    <p class="no-update-msg">Nothing verifiable in the 1–4 September window. The standing story remains the consolidation of Microsoft's security estate into the Defender portal: managing Microsoft Sentinel in the Azure portal was originally set to retire on 1 July 2026, and Microsoft extended that sunset to 31 March 2027 after customer feedback. Sentinel continues as a full SIEM service with operations transitioning into the Defender portal. In parallel, Microsoft Defender Threat Intelligence is converging into Defender XDR and Sentinel — delivered inside the unified SecOps experience at no additional cost — with the standalone MDTI product retired on 1 August 2026. On the data side, the Sentinel data lake reached general availability with Sentinel graph and a Sentinel MCP server in public preview, offering more than 350 native connectors and retention priced below 15% of traditional analytics logs, alongside data federation through Microsoft Fabric that analyses security data in place, plus native filtering and splitting in the Defender portal to route data between analytics and lake tiers before ingestion. That pricing tier, not any product launch, is the live competitive pressure on Elastic Security. Research caution for this vendor: Microsoft Ignite and RSAC announcements recur annually and Sentinel data lake material from 2025 resurfaces prominently in searches for current news — the July and September 2025 Sentinel data lake posts are the most common false positives. Next catalyst: Ignite, where Microsoft has historically staged its largest Sentinel and Defender announcements.</p>
+  </div>
+
+  <div class="vendor-card" data-vendor="splunk">
+    <div class="vendor-card-head"><h3>Splunk (Cisco) — Enterprise Security</h3><span class="status-badge active">Active</span></div>
+    <span class="teal-rule"></span>
+    <p>Splunk released Enterprise Security 8.7.0 on 2 September 2026. The centrepiece is the AI SOC Analyst, which takes investigation and response-plan context and automatically executes permitted actions, recommends next steps where analyst approval is required, and completes response tasks — moving Splunk from investigation to response without a handoff. Two further agents ship alongside it: a Detection Builder Agent with improved reliability and accuracy when creating and refining detections, including better SPL guidance and validation for Essentials Edition, and a Connector Builder Agent that generates, tests and refines connectors to widen automation coverage across more tools. The release also adds MCP access to investigation context, a reworked navigation experience with customisable layout and icons, a streamlined analyst queue with team-based queues and saved views, and deeper change history in activity logs.</p>
+    <p>The Connector Builder Agent deserves separate attention from the AI SOC Analyst. Connector coverage has been the slow, unglamorous constraint on every SIEM's automation reach, and generating connectors with an agent attacks the integration moat that content-library breadth has traditionally provided. If it works as described, the defensible differentiator moves from how many integrations a vendor ships to how fast a customer can create the one they need — which is a materially different competitive game and one that favours whoever has the better generation loop rather than the bigger catalogue.</p>
+    <p><strong>Watch signal:</strong> "permitted actions, executed automatically" is now the phrase to expect from Splunk in competitive evaluations, and Elastic Security needs a precise answer on where its own automation sits on the approval spectrum. The MCP access to investigation context also matters — Splunk, CrowdStrike and Microsoft have all now exposed investigation context over MCP, so agent interoperability is becoming table stakes rather than a differentiator.</p>
+    <p>Standing items: 8.7.0 is a point release only ten weeks or so after 8.6, so the release cadence itself is worth tracking as a signal of Cisco-era investment levels in Enterprise Security. Open question: whether the AI SOC Analyst is gated to a particular Enterprise Security edition, which determines how much of the installed base actually gets it. Research caution: Splunk .conf recurs annually and Cisco's September 2025 agentic-AI SOC announcement ranks highly in searches for current Splunk security news — confirm the year before treating any Cisco or Splunk SOC-automation headline as new.</p>
+  </div>
+
+  <div class="vendor-card no-update" data-vendor="googlesecops">
+    <div class="vendor-card-head"><h3>Google SecOps — Chronicle / Mandiant</h3><span class="status-badge quiet">Quiet</span></div>
+    <span class="teal-rule"></span>
+    <p class="no-update-msg">No product announcement in the 1–4 September window, though one commercial change took effect inside it: consumption of purchased Google SecOps Security Tokens, originally due to begin on 1 July 2026, was delayed and started on 1 September 2026 — a billing-model change rather than news, but one that will surface in customer conversations this month. The most recent product substance is from August 2026, when Google launched the Threat Hunt Agent in public preview for Enterprise Plus customers: a Gemini-powered agent that autonomously runs proactive hunts using Google Threat Intelligence and Mandiant expertise, opening a case in Case Management, typically taking 60–90 minutes per run and limited during preview to two concurrent hunts and five per day, launched against predefined Google TI objects such as an actor, campaign, malware family, toolkit or TTP. Also in August, Google SecOps SIEM added a public preview for analysing feed activity with Cloud Logging to debug ingestion pipelines and diagnose log-delivery issues. Two dated migration items are worth holding: Stage 2 of the SOAR migration to Google Cloud was extended from 30 September to 30 November 2026, and the MANDIANT_ACTIVE_BREACH_IOC, MANDIANT_FUSION_IOC and OPEN_SOURCE_INTEL_IOC feeds are deprecated in favour of GTI_IOC, with removal on 18 March 2027. Strategic direction is unchanged — Gemini agents layered across triage, investigation and hunting, with the Emerging Threat Center in public preview mapping new intelligence to detection coverage. Research caution for this vendor: Google SecOps ships continuously through release notes rather than press releases, so the absence of announcement-style news does not mean the absence of change; and the 2022 Chronicle Security Operations launch coverage still ranks highly for "Google SecOps announcement" queries.</p>
+  </div>
+
+  <h2>Further reading</h2><span class="rule"></span>
+
+  <div class="reading-block" data-vendor="crowdstrike">
+    <h4>CrowdStrike</h4>
+    <ul>
+      <li><a href="https://www.crowdstrike.com/en-us/press-releases/crowdstrike-establishes-cyber-superintelligence-lab/">CrowdStrike establishes Cyber Superintelligence Lab — CrowdStrike press release</a></li>
+      <li><a href="https://www.crowdstrike.com/en-us/press-releases/crowdstrike-and-openai-expand-partnership-to-secure-the-agentic-era/">CrowdStrike and OpenAI expand partnership to secure the agentic era — CrowdStrike press release</a></li>
+      <li><a href="https://secure.businesswire.com/news/home/20260902751230/en/CrowdStrike-Unveils-the-Next-Evolution-of-the-Agentic-SOC">CrowdStrike unveils the next evolution of the agentic SOC — Business Wire</a></li>
+      <li><a href="https://secure.businesswire.com/news/home/20260902817711/en/Introducing-the-CrowdStrike-Agentic-Identity-Provider-the-Foundation-for-AI-Agent-Identity-Security">Introducing the CrowdStrike Agentic Identity Provider — Business Wire</a></li>
+      <li><a href="https://ir.crowdstrike.com/news-releases/news-release-details/crowdstrike-extends-its-endpoint-advantage-secure-software">CrowdStrike extends its endpoint advantage to secure the software supply chain — CrowdStrike investor relations</a></li>
+      <li><a href="https://siliconangle.com/2026/09/02/crowdstrike-gives-ai-agents-an-identity-provider-parallel-soc-investigations-and-package-blocking/">CrowdStrike gives AI agents an identity provider, parallel SOC investigations and package blocking — SiliconANGLE</a></li>
+      <li><a href="https://siliconangle.com/2026/09/01/crowdstrike-builds-security-frontier-models-with-nvidia-and-opens-an-ai-lab/">CrowdStrike builds security frontier models with Nvidia and opens an AI lab — SiliconANGLE</a></li>
+      <li><a href="https://ir.crowdstrike.com/news-releases/news-release-details/crowdstrike-participate-upcoming-investor-conferences-7">CrowdStrike to participate in upcoming investor conferences — CrowdStrike investor relations</a></li>
+    </ul>
+  </div>
+
+  <div class="reading-block" data-vendor="paloalto">
+    <h4>Palo Alto Networks</h4>
+    <ul>
+      <li><a href="https://www.paloaltonetworks.com/company/press/2026/palo-alto-networks-acquires-console-to-agentify-security">Palo Alto Networks acquires Console to agentify security — Palo Alto Networks press release</a></li>
+      <li><a href="https://www.securityweek.com/palo-alto-networks-acquires-ai-agent-platform-console/amp/">Palo Alto Networks acquires AI agent platform Console — SecurityWeek</a></li>
+      <li><a href="https://www.networkworld.com/article/4217170/palo-alto-networks-buys-console-to-boost-agentic-security">Palo Alto Networks buys Console to boost agentic security — Network World</a></li>
+      <li><a href="https://securityboulevard.com/2026/09/palo-alto-acquires-console-to-expand-cortex-agentic-security/">Palo Alto acquires Console to expand Cortex agentic security — Security Boulevard</a></li>
+    </ul>
+  </div>
+
+  <div class="reading-block" data-vendor="splunk">
+    <h4>Splunk (Cisco)</h4>
+    <ul>
+      <li><a href="https://help.splunk.com/en/splunk-enterprise-security-8/release-notes-and-resources/8.7/splunk-enterprise-security-release-notes/release-notes-for-splunk-enterprise-security">Release notes for Splunk Enterprise Security 8.7.0 — Splunk documentation</a></li>
+      <li><a href="https://releasebot.io/updates/splunk">Splunk release notes, September 2026 updates — Releasebot</a></li>
+      <li><a href="https://community.splunk.com/t5/Product-News-Announcements/bg-p/ProductNewsAnnouncements/label-name/splunk%20enterprise%20security">Product news and announcements, Splunk Enterprise Security — Splunk Community</a></li>
+    </ul>
+  </div>
+
+  <h2>Solutions</h2><span class="rule"></span>
+  <nav class="solution-nav">
+    <a href="./security_compintel_portal.html">Security</a>
+    <a href="./observability_compintel_portal.html">Observability</a>
+    <a href="./search_compintel_portal.html">Search / AI</a>
+  </nav>
+
+  <h2>Archive</h2><span class="rule"></span>
+  <div class="archive-links">
+    <a href="./archive/security_compintel_2026-09-02.html">02 Sep 2026</a>
+    <a href="./archive/security_compintel_2026-08-31.html">31 Aug 2026</a>
+    <a href="./archive/security_compintel_2026-08-28.html">28 Aug 2026</a>
+    <a href="./archive/">Full archive</a>
+  </div>
+
+  <footer class="page-foot">
+    Elastic Security competitive intelligence · 72-hour pulse · generated 4 September 2026. Items are included only where a dated, linkable source could be verified; vendors with no qualifying items are marked quiet.
+  </footer>
+
+</div>
+
+<script>
+(function () {
+  var bar = document.getElementById('filterBar');
+  if (!bar) return;
+  bar.addEventListener('click', function (e) {
+    var btn = e.target.closest('.filter-btn');
+    if (!btn) return;
+    var filter = btn.getAttribute('data-filter');
+    bar.querySelectorAll('.filter-btn').forEach(function (b) {
+      b.classList.toggle('is-active', b === btn);
+    });
+    document.querySelectorAll('[data-vendor]').forEach(function (el) {
+      el.style.display = (filter === 'all' || el.getAttribute('data-vendor') === filter) ? '' : 'none';
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
