@@ -1,0 +1,275 @@
+<!--
+  Security competitive intelligence — 72-hour pulse
+  Edition: 5 – 8 Sep 2026
+  Generated: 08 Sep 2026
+
+  NOTE: The previous edition (security_compintel_portal.html) was NOT reachable from this
+  session, so the in-place rewrite could not be performed. This file contains ONLY the
+  content blocks that the task specifies as replaceable, in house style, ready to drop into
+  the existing template. CSS, JavaScript, filter bar, solution-nav, archive links and
+  structural HTML are untouched because they were never loaded.
+-->
+
+
+<!-- ============================================================ -->
+<!-- 1. META CHIPS                                                -->
+<!-- ============================================================ -->
+
+<span class="meta-chip">5 – 8 Sep 2026</span>
+<span class="meta-chip">Last updated: 08 Sep 2026, 09:00 UTC</span>
+
+
+<!-- ============================================================ -->
+<!-- 2. TLDR                                                      -->
+<!-- ============================================================ -->
+
+<p>
+  The window belongs almost entirely to <strong>CrowdStrike</strong>, and not by choice: the
+  <strong>FalconFlank</strong> privilege-escalation proof-of-concept published against the Falcon
+  Windows sensor is still unpatched, with no CVE and no CVSS score assigned, leaving customers on a
+  configuration workaround rather than a fix. FalconFlank is one of three zero-day PoCs dropped in
+  quick succession by the researcher operating as <strong>Nightmare Eclipse</strong> — the others hit
+  NVIDIA and Avast — and Gen Digital has already shipped a patch for its own, which sharpens the
+  contrast on CrowdStrike's response timeline. The two most consequential vendor announcements sit
+  just outside the window and are carried here as context: <strong>Fal.Con 2026</strong> ran 31 August
+  to 3 September, where CrowdStrike launched Falcon Guardian and SafeMind and folded AI-agent
+  telemetry into Falcon Next-Gen SIEM as first-party data, and <strong>Palo Alto Networks</strong>
+  announced its acquisition of Console on 1 September to deepen agentic capability in Cortex.
+  <strong>SentinelOne</strong>, <strong>Microsoft</strong>, <strong>Splunk (Cisco)</strong> and
+  <strong>Google SecOps</strong> were all quiet in the window. The nearest dated catalyst is
+  <strong>14 September</strong>, when Microsoft retires the legacy Azure Data Collection API and
+  permanently disables the containerized SAP data connector agent for Sentinel.
+</p>
+
+
+<!-- ============================================================ -->
+<!-- 3. SUMMARY ROWS                                              -->
+<!-- ============================================================ -->
+
+<div class="summary-row" data-vendor="crowdstrike">
+  <div>CrowdStrike</div>
+  <div>
+    The FalconFlank privilege-escalation PoC against the Falcon Windows sensor, published 3 September
+    by the researcher known as Nightmare Eclipse / Chaotic Eclipse, remained unresolved through the
+    window. It abuses the elevated cleanup path in Falcon's Microsoft Office suspicious-macro removal
+    feature to spawn a SYSTEM shell on fully patched Windows 11 25H2 and Windows Server 2025 hosts.
+    CrowdStrike has issued a mitigation — disable the "Microsoft Office File Suspicious Macro Removal"
+    Windows policy and rely on Cloud Anti-malware for Microsoft Office Files — but has not assigned a
+    CVE, published a CVSS score, or shipped a fix.
+  </div>
+  <div>
+    <span class="watch-signal">A competitor's own agent becoming the local privilege-escalation path
+    is the sharpest available argument for defence-in-depth over single-agent consolidation, and Elastic
+    Security should be ready to discuss detection coverage for EDR-abuse techniques rather than
+    point-scoring the incident.</span>
+  </div>
+</div>
+
+<div class="summary-row no-update" data-vendor="sentinelone">
+  <div>SentinelOne</div>
+  <div><span class="no-update-text">No significant updates in the past 72 hours.</span></div>
+  <div><span class="no-update-text">—</span></div>
+</div>
+
+<div class="summary-row no-update" data-vendor="paloalto">
+  <div>Palo Alto Networks</div>
+  <div><span class="no-update-text">No significant updates in the past 72 hours.</span></div>
+  <div><span class="no-update-text">—</span></div>
+</div>
+
+<div class="summary-row no-update" data-vendor="microsoft">
+  <div>Microsoft</div>
+  <div><span class="no-update-text">No significant updates in the past 72 hours.</span></div>
+  <div><span class="no-update-text">—</span></div>
+</div>
+
+<div class="summary-row no-update" data-vendor="splunk">
+  <div>Splunk (Cisco)</div>
+  <div><span class="no-update-text">No significant updates in the past 72 hours.</span></div>
+  <div><span class="no-update-text">—</span></div>
+</div>
+
+<div class="summary-row no-update" data-vendor="googlesecops">
+  <div>Google SecOps</div>
+  <div><span class="no-update-text">No significant updates in the past 72 hours.</span></div>
+  <div><span class="no-update-text">—</span></div>
+</div>
+
+
+<!-- ============================================================ -->
+<!-- 4. VENDOR CARDS                                              -->
+<!-- ============================================================ -->
+
+<div class="vendor-card" data-vendor="crowdstrike">
+  <h3>CrowdStrike <span class="status-badge active">Active</span></h3>
+
+  <p>
+    FalconFlank is a privilege-escalation proof-of-concept against the CrowdStrike Falcon sensor for
+    Windows, released publicly on 3 September by a researcher operating variously as Nightmare Eclipse,
+    Chaotic Eclipse and MSNightmare. The technique targets Falcon's remediation routine for malicious
+    Microsoft Office macros: because the cleanup runs with elevated privileges, an attacker who can
+    place controlled files in its path can have that routine act on them unsafely and spawn a command
+    prompt running as SYSTEM. Reporting confirms it works against fully patched Windows 11 25H2 and
+    Windows Server 2025 hosts with the macro-removal feature enabled. As of the close of the window
+    CrowdStrike had not assigned a CVE, had not published a CVSS score and had not shipped a fix,
+    directing customers instead to disable the "Microsoft Office File Suspicious Macro Removal" Windows
+    policy setting while retaining Cloud Anti-malware for Microsoft Office Files. No in-the-wild
+    exploitation had been identified.
+  </p>
+
+  <p>
+    The second-order read is about disclosure posture rather than the bug itself. FalconFlank arrived
+    as one of three PoCs the same researcher dropped in a short span — alongside PrettyPrague against
+    the Avast sandbox and GreenSection against a shared NVIDIA user-mode memory section. Gen Digital
+    has closed the Avast issue; NVIDIA is investigating; CrowdStrike is alone in still running on a
+    customer-side configuration workaround. That comparison is the part buyers will notice, and it
+    lands nine days after CrowdStrike closed a conference built on the claim that its agent is the
+    trusted control point for AI-era security. Note also that the mitigation is a capability
+    downgrade, not a neutral toggle: customers who apply it lose a remediation feature for the
+    duration.
+  </p>
+
+  <p>
+    <strong>Watch signal:</strong> Elastic Security should expect this to surface in competitive
+    conversations as an argument about agent blast radius — the more security functions collapse into
+    a single privileged endpoint agent, the more a flaw in that agent's remediation logic becomes an
+    enterprise-wide escalation path. The credible Elastic position is architectural rather than
+    opportunistic: open detection content and behavioural coverage for EDR-abuse and
+    living-off-the-security-tool techniques, plus the ability to ingest and correlate endpoint
+    telemetry independently of the agent vendor. Field teams should be briefed to discuss the class of
+    problem, not to campaign on a competitor's unpatched vulnerability.
+  </p>
+
+  <p>
+    Standing items: Fal.Con 2026 ran 31 August to 3 September at Mandalay Bay under the theme
+    "Securing the AI Revolution," producing more than a dozen announcements. Directly SIEM-relevant:
+    CrowdStrike unveiled the next evolution of its agentic SOC, claiming the first coordinated
+    multi-agent investigations spanning endpoint, identity, SaaS, cloud and network simultaneously,
+    with Falcon Next-Gen SIEM positioned as the unifying layer for AI-ready data, agentic
+    investigations and governed automation. Platform-level: Falcon Guardian, an AI detection and
+    response product covering data, models, prompts, agents, identities and infrastructure at runtime,
+    launched 1 September and feeds AI-agent telemetry into Falcon Next-Gen SIEM as first-party data;
+    it is being extended through Google Agent Gateway to cover Google Cloud enterprise AI
+    applications. CrowdStrike also announced SafeMind, a family of security models and harnesses from
+    its Cyber Superintelligence Lab built with NVIDIA Nemotron, pairing an offensive model that finds
+    an attack path with a defensive model that closes it. Open question: whether a CVE and sensor
+    update for FalconFlank land before the mitigation guidance becomes a support burden.
+  </p>
+</div>
+
+<div class="vendor-card no-update" data-vendor="sentinelone">
+  <h3>SentinelOne <span class="status-badge quiet">Quiet</span></h3>
+  <p class="no-update-msg">
+    Nothing verifiable from SentinelOne landed in the 5 to 8 September window. The most recent
+    material events sit in late August: the company reported second-quarter fiscal 2027 results on
+    27 August for the quarter ended 31 July 2026, with revenue up 21 percent year over year to
+    $292 million and full-year fiscal 2027 guidance raised to $1.202–$1.207 billion, roughly 20 percent
+    growth at the midpoint. On the analyst side, SentinelOne was named a Leader in the Gartner Magic
+    Quadrant for Endpoint Protection Platforms for a sixth consecutive year, announced 27 May 2026 —
+    an endpoint placement, not a SIEM one, and worth keeping distinct in competitive framing.
+    Strategically the company continues to build its AI SIEM around two acquisitions: Observo AI, the
+    AI-native telemetry pipeline platform bought for roughly $225 million, and Prompt Security for
+    GenAI and agent security. Purple AI remains the agentic analyst layer over that data. Research
+    caution: SentinelOne's fiscal year runs a year ahead of the calendar, so "fiscal 2026" results
+    coverage refers to calendar 2025 and routinely surfaces in searches scoped to 2026 — check the
+    quarter-end date, not the fiscal label. The Observo AI announcement is dated 8 September 2025 and
+    resurfaces strongly against September 2026 queries.
+  </p>
+</div>
+
+<div class="vendor-card no-update" data-vendor="paloalto">
+  <h3>Palo Alto Networks <span class="status-badge quiet">Quiet</span></h3>
+  <p class="no-update-msg">
+    Nothing new from Palo Alto Networks inside the window, but only just — on 1 September 2026, four
+    days before it opened, the company announced it had acquired Console, an AI-native platform for
+    agentic workflows, with financial terms undisclosed. Console is being folded into Cortex to deepen
+    autonomous investigation, signal prioritisation and action, which puts it squarely in the same
+    contested ground as CrowdStrike's agentic SOC push and Google's Threat Hunt Agent. It follows a
+    heavy year of consolidation: the $3.35 billion Chronosphere acquisition closed 29 January 2026,
+    giving Cortex XSIAM an observability-grade telemetry pipeline — Chronosphere reported over
+    $160 million ARR at end-September 2025 — and the $25 billion CyberArk acquisition closed
+    11 February 2026, adding identity security to the platform. The strategic read is that Palo Alto is
+    assembling XSIAM's data layer, identity layer and agent layer through purchase rather than
+    build, which shortens its roadmap but leaves integration risk visible to buyers. Research caution:
+    Cortex XSIAM 3.0 coverage is dated 28 April 2025 and reads as current in search results; confirm
+    the year before treating any XSIAM version announcement as new.
+  </p>
+</div>
+
+<div class="vendor-card no-update" data-vendor="microsoft">
+  <h3>Microsoft <span class="status-badge quiet">Quiet</span></h3>
+  <p class="no-update-msg">
+    No significant Microsoft security announcements in the window; the monthly "What's new in
+    Microsoft Sentinel" post for September had not published by 8 September. Two dated deprecations
+    land imminently and are the nearest catalyst in this edition: on 14 September 2026 the legacy Azure
+    Data Collection API is deprecated, and the containerized SAP data connector agent is permanently
+    disabled and stops delivering SAP logs to Sentinel. The August update added UEBA anomaly insights
+    with explainable context to the Behaviors layer and extended coverage across Fortinet, AWS
+    GuardDuty, Check Point and Zscaler, while Sentinel data connectors for Auth0, CrowdStrike Falcon
+    and Salesforce Service Cloud gained multi-account ingestion through the Codeless Connector
+    Framework. Structurally, the Azure portal UI for Sentinel retired in July 2026 and Sentinel now
+    operates through the Microsoft Defender portal, with full SIEM functionality retained — the
+    unified SOC platform combining Sentinel, Defender XDR and Security Copilot on a single data model
+    is now the only front door. Research caution: the Sentinel data lake reached general availability
+    on 30 September 2025 alongside the Sentinel graph and MCP server public previews; that
+    announcement matches September queries almost perfectly and must not be read as 2026 news.
+  </p>
+</div>
+
+<div class="vendor-card no-update" data-vendor="splunk">
+  <h3>Splunk (Cisco) <span class="status-badge quiet">Quiet</span></h3>
+  <p class="no-update-msg">
+    Nothing from Splunk or Cisco security in the window. The current release baseline is Splunk
+    Enterprise Security 8.6.1, which reached general availability on 4 August 2026 and shipped the
+    agentic SOC feature set: Detection Builder, Triage, Guided Response, Automation Builder, a
+    Standard Operating Procedure agent that operationalises SOC runbooks inside response plans, and
+    cloud-connected AI Assistant support. That release delivers on commitments Cisco made when it
+    introduced the Essentials and Premier editions of Enterprise Security, and the direction of travel
+    is a two-tier packaging model with agentic capability as the upgrade lever. Cisco continues to
+    frame Splunk as the security half of a multi-year data fabric strategy alongside its networking
+    telemetry. Research caution: this vendor is the worst offender for date confusion in the set.
+    Cisco's "Elevates the SOC with Agentic AI" announcement, the Enterprise Security 8.2 launch and the
+    Essentials/Premier edition news are all dated September 2025 and rank at the top of September 2026
+    queries; Cisco Live and .conf material recurs annually. Verify the year on any Splunk SOC
+    announcement before treating it as in-window.
+  </p>
+</div>
+
+<div class="vendor-card no-update" data-vendor="googlesecops">
+  <h3>Google SecOps <span class="status-badge quiet">Quiet</span></h3>
+  <p class="no-update-msg">
+    No Google SecOps announcements in the window; the most recent "What's New in Google SecOps"
+    community updates are dated 10 and 17 August 2026. The significant recent capability is the Threat
+    Hunt Agent, in public preview for Enterprise Plus customers since early August — a Gemini-powered
+    agent that runs autonomous hunts seeded from Google Threat Intelligence objects such as an actor,
+    campaign, malware family, toolkit or TTP, executing up to 30 steps over one to two hours and
+    opening a case with its findings, with Mandiant frontline expertise and MITRE ATT&CK as the
+    reasoning frame. Two dated migration deadlines are worth tracking: Stage 2 of the SOAR migration to
+    Google Cloud was extended from 30 September to 30 November 2026, and the MANDIANT_ACTIVE_BREACH_IOC,
+    MANDIANT_FUSION_IOC and OPEN_SOURCE_INTEL_IOC feeds are deprecated ahead of removal on
+    18 March 2027, with customers directed to the consolidated GTI_IOC feed. The strategic direction is
+    consistent — fold Mandiant intelligence into the platform as agent-consumable context rather than
+    as a separate subscription. Research caution: Chronicle-era launch material remains heavily indexed
+    and undated in places; prefer the Google Cloud release notes over blog coverage when confirming
+    timing.
+  </p>
+</div>
+
+
+<!-- ============================================================ -->
+<!-- 5. FURTHER READING                                           -->
+<!-- ============================================================ -->
+
+<div class="further-reading" data-vendor="crowdstrike">
+  <h4>CrowdStrike</h4>
+  <ul>
+    <li><a href="https://www.bleepingcomputer.com/news/security/new-crowdstrike-falconflank-zero-day-grants-system-privileges/">New CrowdStrike 'FalconFlank' zero-day grants SYSTEM privileges — BleepingComputer</a></li>
+    <li><a href="https://thehackernews.com/2026/09/researcher-releases-falconflank-poc.html">Researcher releases FalconFlank PoC showing privilege escalation in CrowdStrike Falcon — The Hacker News</a></li>
+    <li><a href="https://www.securityweek.com/nightmare-eclipse-drops-crowdstrike-nvidia-avast-zero-day-exploits/">Nightmare Eclipse drops CrowdStrike, Nvidia, Avast zero-day exploits — SecurityWeek</a></li>
+    <li><a href="https://www.theregister.com/security/2026/09/03/prolific-microsoft-0-day-hunter-drops-crowdstrike-falcon-exploit-poc/5294318">Prolific Microsoft 0-day hunter drops CrowdStrike Falcon exploit PoC — The Register</a></li>
+    <li><a href="https://www.techzine.eu/news/security/144053/falconflank-exposes-crowdstrike-falcon-privilege-flaw/">FalconFlank exposes CrowdStrike Falcon privilege flaw — Techzine Global</a></li>
+    <li><a href="https://crowdstrike.gcs-web.com/news-releases/news-release-details/crowdstrike-unveils-next-evolution-agentic-soc">CrowdStrike unveils the next evolution of the agentic SOC — CrowdStrike press release</a></li>
+    <li><a href="https://biztechmagazine.com/article/2026/09/crowdstrike-falcon-2026-crowdstrike-announces-falcon-guardian-and-safe-mind-aidr">Fal.Con 2026: CrowdStrike announces Falcon Guardian and SafeMind for AIDR — BizTech Magazine</a></li>
+    <li><a href="https://blogs.nvidia.com/blog/nvidia-crowdstrike-fal-con-2026/">NVIDIA and CrowdStrike strengthen the agentic cybersecurity frontier — NVIDIA Blog</a></li>
+  </ul>
+</div>
