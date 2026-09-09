@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Security competitive intelligence — 72-hour pulse</title>
+<style>
+  :root{
+    --ink:#1c1e23;
+    --ink-soft:#535966;
+    --line:#d9dce3;
+    --line-soft:#eceef2;
+    --bg:#ffffff;
+    --bg-soft:#f7f8fa;
+    --accent:#0b64dd;
+    --accent-soft:#e7f0fd;
+    --teal:#00bfb3;
+    --pink:#f04e98;
+    --quiet:#8a909e;
+    --quiet-bg:#f2f3f6;
+    --active-bg:#e6f7f5;
+    --active-ink:#00776f;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,Helvetica,Arial,sans-serif;
+    font-size:16px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1080px;margin:0 auto;padding:0 24px 80px}
+
+  /* ---------- header ---------- */
+  header.site{border-bottom:1px solid var(--line);background:var(--bg-soft)}
+  .site-inner{max-width:1080px;margin:0 auto;padding:24px;display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between}
+  h1{font-size:1.5rem;line-height:1.3;margin:0;font-weight:650;letter-spacing:-.01em}
+  h1 span{display:block;font-size:.9rem;font-weight:450;color:var(--ink-soft);letter-spacing:0}
+  .archive-btn{
+    display:inline-block;padding:8px 16px;border:1px solid var(--line);border-radius:6px;
+    background:var(--bg);color:var(--ink);text-decoration:none;font-size:.85rem;font-weight:550;white-space:nowrap;
+  }
+  .archive-btn:hover{border-color:var(--accent);color:var(--accent)}
+
+  /* ---------- solution nav ---------- */
+  .solution-nav{max-width:1080px;margin:0 auto;padding:0 24px;display:flex;gap:4px;flex-wrap:wrap}
+  .solution-nav a{
+    padding:12px 18px;text-decoration:none;font-size:.9rem;font-weight:550;color:var(--ink-soft);
+    border-bottom:2px solid transparent;
+  }
+  .solution-nav a:hover{color:var(--accent)}
+  .solution-nav a.current{color:var(--accent);border-bottom-color:var(--accent)}
+  .nav-rule{border-bottom:1px solid var(--line);margin-bottom:32px}
+
+  /* ---------- meta chips ---------- */
+  .meta-row{display:flex;gap:10px;flex-wrap:wrap;margin:28px 0 20px}
+  .meta-chip{
+    display:inline-block;padding:5px 12px;border-radius:999px;background:var(--accent-soft);
+    color:var(--accent);font-size:.78rem;font-weight:600;letter-spacing:.01em;
+  }
+  .meta-chip.subtle{background:var(--quiet-bg);color:var(--ink-soft)}
+
+  /* ---------- tldr ---------- */
+  .tldr{
+    border-left:3px solid var(--teal);background:var(--bg-soft);
+    padding:20px 24px;border-radius:0 8px 8px 0;margin:0 0 36px;
+  }
+  .tldr h2{margin:0 0 8px;font-size:.78rem;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-soft);font-weight:700}
+  .tldr p{margin:0;font-size:1.02rem}
+
+  /* ---------- filter bar ---------- */
+  .filter-bar{
+    display:flex;gap:8px;flex-wrap:wrap;align-items:center;
+    padding:14px 0 18px;border-top:1px solid var(--line-soft);border-bottom:1px solid var(--line-soft);margin-bottom:32px;
+  }
+  .filter-bar .filter-label{font-size:.78rem;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-soft);font-weight:700;margin-right:4px}
+  .filter-btn{
+    padding:6px 13px;border:1px solid var(--line);border-radius:999px;background:var(--bg);
+    color:var(--ink-soft);font-size:.83rem;font-weight:550;cursor:pointer;font-family:inherit;
+  }
+  .filter-btn:hover{border-color:var(--accent);color:var(--accent)}
+  .filter-btn.selected{background:var(--ink);border-color:var(--ink);color:#fff}
+
+  /* ---------- sections ---------- */
+  h2.section{font-size:1.15rem;font-weight:650;margin:44px 0 16px;letter-spacing:-.01em}
+  h3.vendor-name{font-size:1.05rem;font-weight:650;margin:0;letter-spacing:-.01em}
+  h4.fr-vendor{font-size:.9rem;font-weight:650;margin:0 0 8px}
+
+  /* ---------- summary table ---------- */
+  .summary-table{width:100%;border-collapse:collapse;font-size:.92rem}
+  .summary-table th{
+    text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);
+    font-size:.74rem;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-soft);font-weight:700;
+  }
+  .summary-table td{padding:14px;border-bottom:1px solid var(--line-soft);vertical-align:top}
+  .summary-table .v-cell{font-weight:600;white-space:nowrap;width:16%}
+  .summary-row.no-update td{color:var(--quiet)}
+  .watch-signal{display:block;color:var(--accent);font-size:.88rem}
+  .no-update-text{color:var(--quiet);font-style:italic}
+
+  /* ---------- vendor cards ---------- */
+  .vendor-card{
+    border:1px solid var(--line);border-radius:10px;padding:22px 24px;margin-bottom:20px;background:var(--bg);
+  }
+  .vendor-card.no-update{background:var(--bg-soft);border-color:var(--line-soft)}
+  .card-head{display:flex;gap:12px;align-items:center;margin-bottom:12px}
+  .vendor-card p{margin:0 0 14px}
+  .vendor-card p:last-child{margin-bottom:0}
+  .status-badge{
+    display:inline-block;padding:3px 10px;border-radius:999px;font-size:.7rem;font-weight:700;
+    text-transform:uppercase;letter-spacing:.06em;
+  }
+  .status-badge.active{background:var(--active-bg);color:var(--active-ink)}
+  .status-badge.quiet{background:var(--quiet-bg);color:var(--quiet)}
+  .no-update-msg{color:var(--ink-soft);font-size:.94rem}
+
+  /* ---------- further reading ---------- */
+  .fr-block{margin-bottom:22px}
+  .fr-block ul{margin:0;padding-left:20px}
+  .fr-block li{margin-bottom:5px;font-size:.9rem}
+  .fr-block a{color:var(--accent);text-decoration:none}
+  .fr-block a:hover{text-decoration:underline}
+
+  /* ---------- footer ---------- */
+  footer.site{border-top:1px solid var(--line);margin-top:48px;padding-top:20px;font-size:.85rem;color:var(--ink-soft)}
+  footer.site a{color:var(--accent);text-decoration:none}
+  footer.site a:hover{text-decoration:underline}
+
+  @media (max-width:700px){
+    .summary-table,.summary-table thead{display:none}
+    .summary-table tbody,.summary-table tr,.summary-table td{display:block;width:100%}
+  }
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="site-inner">
+    <h1>Security competitive intelligence
+      <span>72-hour pulse · SIEM, XDR and the agentic SOC</span>
+    </h1>
+    <a class="archive-btn" href="https://frankswain-png.github.io/security_compintel/archive/security_archive.html">View archive</a>
+  </div>
+</header>
+
+<nav class="solution-nav">
+  <a class="current" href="https://frankswain-png.github.io/security_compintel/">Security</a>
+  <a href="https://frankswain-png.github.io/o11y_compintel/">Observability</a>
+  <a href="https://frankswain-png.github.io/search_compintel/">Search</a>
+</nav>
+<div class="nav-rule"></div>
+
+<div class="wrap">
+
+  <div class="meta-row">
+    <span class="meta-chip">6 Sep – 9 Sep 2026</span>
+    <span class="meta-chip subtle">Last updated: 09 Sep 2026, 08:00 UTC</span>
+  </div>
+
+  <div class="tldr">
+    <h2>TLDR</h2>
+    <p>One researcher now holds unpatched local privilege-escalation proof-of-concepts against the two largest endpoint agents in the market at the same time. <strong>Microsoft</strong> shipped a record September Patch Tuesday on 8 September — between 964 and 974 CVEs depending on the counter, including two actively exploited Windows zero-days that CISA added to its Known Exploited Vulnerabilities catalogue the same day — and roughly two hours later the researcher operating as <strong>Nightmare Eclipse / MSNightmare</strong> published <strong>ShieldCrash</strong>, a Defender proof-of-concept that reads files as SYSTEM and that they claim bypasses Microsoft's incomplete fix for ShieldBreak (CVE-2026-69414). The same researcher's <strong>CrowdStrike</strong> FalconFlank PoC, published 3 September, went through this entire window with no CVE, no CVSS score and no sensor fix, leaving customers on a configuration workaround that disables a remediation feature; independent analysis on 6 September framed it as the third endpoint-security zero-day from this researcher in five weeks. The competitive theme of the window is therefore not a product launch but <strong>the security agent as the escalation path</strong>, and <strong>Google SecOps</strong> extended it from a different angle with a GTIG report on 8 September detailing how <strong>UNC6780 / TeamPCP</strong> poisons PyPI, npm and Docker Hub packages specifically to defeat AI coding assistants and LLM security scanners. <strong>SentinelOne</strong>, <strong>Palo Alto Networks</strong> and <strong>Splunk (Cisco)</strong> were quiet; the nearest dated catalysts are <strong>.conf26</strong> in Denver on 14–17 September and Microsoft's 14 September retirement of the legacy HTTP Data Collection API and the containerized SAP data connector agent for Sentinel.</p>
+  </div>
+
+  <div class="filter-bar">
+    <span class="filter-label">Filter</span>
+    <button class="filter-btn selected" data-vendor="all">All vendors</button>
+    <button class="filter-btn" data-vendor="crowdstrike">CrowdStrike</button>
+    <button class="filter-btn" data-vendor="sentinelone">SentinelOne</button>
+    <button class="filter-btn" data-vendor="paloalto">Palo Alto Networks</button>
+    <button class="filter-btn" data-vendor="microsoft">Microsoft</button>
+    <button class="filter-btn" data-vendor="splunk">Splunk (Cisco)</button>
+    <button class="filter-btn" data-vendor="googlesecops">Google SecOps</button>
+  </div>
+
+  <h2 class="section">At a glance</h2>
+  <table class="summary-table">
+    <thead>
+      <tr><th>Vendor</th><th>Key development</th><th>Watch signal</th></tr>
+    </thead>
+    <tbody>
+      <tr class="summary-row" data-vendor="crowdstrike">
+        <td class="v-cell">CrowdStrike</td>
+        <td>The FalconFlank privilege-escalation PoC against the Falcon sensor for Windows, published to GitHub on 3 September without prior notice, remained unresolved through the entire window: no CVE, no CVSS score and no sensor update, only a Tech Alert telling customers to disable the "Microsoft Office File Suspicious Macro Removal" Windows policy. Analysis published 6 September placed it as the third endpoint-security zero-day from the same researcher in five weeks and argued the operative discipline is containment rather than patching.</td>
+        <td><span class="watch-signal">A six-day-old unpatched escalation path in a competitor's own agent is the strongest available evidence for architectural defence-in-depth over single-agent consolidation — but Elastic Security should argue the class of problem, not the incident.</span></td>
+      </tr>
+      <tr class="summary-row no-update" data-vendor="sentinelone">
+        <td class="v-cell">SentinelOne</td>
+        <td><span class="no-update-text">No significant updates in the past 72 hours.</span></td>
+        <td><span class="no-update-text">—</span></td>
+      </tr>
+      <tr class="summary-row no-update" data-vendor="paloalto">
+        <td class="v-cell">Palo Alto Networks</td>
+        <td><span class="no-update-text">No significant updates in the past 72 hours.</span></td>
+        <td><span class="no-update-text">—</span></td>
+      </tr>
+      <tr class="summary-row" data-vendor="microsoft">
+        <td class="v-cell">Microsoft</td>
+        <td>September Patch Tuesday on 8 September fixed a record number of flaws — counts range from 964 to 974 CVEs across Tenable, BleepingComputer and SecurityWeek — including two actively exploited Windows zero-days, CVE-2026-85880 in Advanced Local Procedure Call and CVE-2026-81963 in the Windows Update stack, both rated Important at CVSS 7.8 and both added to the CISA KEV catalogue the same day. About two hours after the release, the researcher known as MSNightmare published ShieldCrash, a Defender PoC that reads files as SYSTEM on all supported Windows versions and that they claim exploits an unpatched path left open by Microsoft's fix for ShieldBreak (CVE-2026-69414).</td>
+        <td><span class="watch-signal">A patch-day volume record alongside a same-day bypass of a Defender fix undercuts the "one vendor, one agent, one console" pitch and strengthens the case for detection content and telemetry that do not depend on the platform vendor's own remediation being correct.</span></td>
+      </tr>
+      <tr class="summary-row no-update" data-vendor="splunk">
+        <td class="v-cell">Splunk (Cisco)</td>
+        <td><span class="no-update-text">No significant updates in the past 72 hours.</span></td>
+        <td><span class="no-update-text">—</span></td>
+      </tr>
+      <tr class="summary-row" data-vendor="googlesecops">
+        <td class="v-cell">Google SecOps</td>
+        <td>Google Threat Intelligence Group published research on 8 September on UNC6780, also tracked as TeamPCP, which ran a February-to-May 2026 campaign poisoning packages across PyPI, npm and Docker Hub — including the Bitwarden CLI npm package and the xinference PyPI package — using its Dustmaker credential stealer to extract tokens from GitHub Actions runner process memory and abuse the pull_request_target trigger. GTIG's accompanying AI threat tracker reported adversary use of AI agents compressing credential theft to under six hours.</td>
+        <td><span class="watch-signal">Google is converting Mandiant frontline research into named-actor AI supply-chain coverage, which is the differentiation Elastic Security has to answer with open detection content for CI/CD and package-registry abuse rather than with intelligence packaging.</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2 class="section">Vendor detail</h2>
+
+  <div class="vendor-card" data-vendor="crowdstrike">
+    <div class="card-head">
+      <h3 class="vendor-name">CrowdStrike</h3>
+      <span class="status-badge active">Active</span>
+    </div>
+    <p>FalconFlank entered this window unresolved and left it unresolved. The proof-of-concept, published to GitHub on 3 September by a researcher operating variously as Chaotic Eclipse, Nightmare Eclipse, INFINITE NIGHTMARE and MSNightmare with no advance notice to CrowdStrike, abuses the Falcon sensor's remediation routine for malicious Microsoft Office macros: because the cleanup runs with elevated privileges, an attacker able to place controlled files in its path can have the routine act on them unsafely and spawn a command prompt as SYSTEM. Reporting confirms it works on fully patched Windows 11 25H2 and Windows Server 2025 hosts with the macro-removal feature enabled. CrowdStrike confirmed to The Hacker News that it is investigating and pointed customers to a FalconFlank Tech Alert in its support portal, but as of 7 September had still not confirmed the flaw, assigned a CVE, published a CVSS score or shipped a sensor update. The guidance remains to disable the "Microsoft Office File Suspicious Macro Removal" Windows policy setting and rely on Cloud Anti-malware for Microsoft Office Files.</p>
+    <p>The genuinely new material in this window is the framing rather than the bug. Analysis published 6 September counted FalconFlank as the third endpoint-security zero-day from the same researcher in five weeks and drew the conclusion that patching is no longer the load-bearing discipline — containment planning is, because the product that would normally contain the host is the product with the hole in it. That argument gained considerable weight two days later when the same researcher dropped ShieldCrash against Microsoft Defender, giving buyers a single narrative rather than a single-vendor incident. Two details are worth carrying into conversations: the mitigation is a capability downgrade rather than a neutral toggle, so customers who apply it are running with a remediation feature switched off for an indefinite period; and no in-the-wild exploitation has been identified, which is why the volume of coverage has outpaced the practical urgency.</p>
+    <p><strong>Watch signal:</strong> Elastic Security should expect this to arrive in competitive conversations as an argument about agent blast radius — the more security functions collapse into one privileged endpoint agent, the more a defect in that agent's remediation logic becomes an enterprise-wide escalation path. The credible Elastic position is architectural, not opportunistic: open detection content and behavioural coverage for EDR-abuse and living-off-the-security-tool techniques, plus the ability to ingest and correlate endpoint telemetry independently of whichever agent vendor a customer runs. Field teams should be briefed to discuss the class of problem. Campaigning on a competitor's unpatched vulnerability reads badly and invites the obvious reply.</p>
+    <p>Standing items: Fal.Con 2026 ran 31 August to 3 September at Mandalay Bay under the theme "Securing the AI Revolution" and has now closed; it produced more than a dozen announcements, of which the SIEM-relevant ones were the next evolution of CrowdStrike's agentic SOC, claiming coordinated multi-agent investigations spanning endpoint, identity, SaaS, cloud and network simultaneously with Falcon Next-Gen SIEM as the unifying layer, and Falcon Guardian, an AI detection and response product covering data, models, prompts, agents, identities and infrastructure at runtime that launched 1 September and feeds AI-agent telemetry into Next-Gen SIEM as first-party data. CrowdStrike also announced SafeMind, a family of security models and harnesses from its Cyber Superintelligence Lab built with NVIDIA Nemotron, pairing an offensive model that finds an attack path with a defensive model that closes it. Routine cadence continued through the window with the company's September 2026 Patch Tuesday analysis blog. Open question: whether a CVE and sensor update land before the workaround becomes a support liability, now that the comparison is not with NVIDIA and Avast but with Microsoft.</p>
+  </div>
+
+  <div class="vendor-card no-update" data-vendor="sentinelone">
+    <div class="card-head">
+      <h3 class="vendor-name">SentinelOne</h3>
+      <span class="status-badge quiet">Quiet</span>
+    </div>
+    <p class="no-update-msg">Nothing verifiable from SentinelOne landed in the 6 to 9 September window, and the vendor is notably absent from a window defined by endpoint-agent vulnerability disclosure — worth noting, since the researcher behind FalconFlank and ShieldCrash has now hit CrowdStrike, Microsoft, NVIDIA and Avast but not Singularity. The most recent material event is the second-quarter fiscal 2027 report of 27 August 2026, covering the quarter ended 31 July 2026: revenue up 21 percent year over year to $292 million, total ARR up 22 percent, record second-quarter net new ARR of $56 million (up 4 percent), customers above $100,000 ARR up 13 percent to 1,715, non-GAAP operating margin of 10 percent against 2 percent a year earlier, and full-year fiscal 2027 revenue guidance raised to $1.202–$1.207 billion, roughly 20 percent growth at the midpoint. On product, SentinelOne added governed closed-loop response to the Singularity platform in August 2026, letting Purple AI and Singularity Hyperautomation investigate an alert, reach a verdict and execute response actions inside limits the security team sets — the closest direct answer in this vendor set to CrowdStrike's agentic SOC positioning, and the item to compare against when XSIAM and Next-Gen SIEM autonomy claims come up. Analyst placements to keep straight: Leader in the 2026 Gartner Magic Quadrant for Endpoint Protection Platforms for a sixth consecutive year, which is an endpoint placement and not a SIEM one, and SOC Platform Leader in the 2026 Latio Security Operations Report. Strategically the AI SIEM continues to be assembled around two acquisitions — Observo AI, the AI-native telemetry pipeline platform bought for roughly $225 million, and Prompt Security for GenAI and agent security — with Purple AI as the agentic analyst layer above that data. Research caution: SentinelOne's fiscal year runs a year ahead of the calendar, so "fiscal 2026" coverage refers to calendar 2025 and ranks highly against 2026-scoped queries; check the quarter-end date rather than the fiscal label. The Observo AI announcement is dated 8 September 2025 and matches September 2026 queries almost exactly.</p>
+  </div>
+
+  <div class="vendor-card no-update" data-vendor="paloalto">
+    <div class="card-head">
+      <h3 class="vendor-name">Palo Alto Networks</h3>
+      <span class="status-badge quiet">Quiet</span>
+    </div>
+    <p class="no-update-msg">Nothing new from Palo Alto Networks inside the window. The most recent event sits five days before it opened: on 1 September 2026 the company announced it had acquired Console, an AI-native platform for agentic workflows, with financial terms officially undisclosed but reported by TechCrunch at roughly $500 million in cash and stock. Console is being folded into Cortex to deepen autonomous investigation, signal prioritisation and action across enterprise environments — the same contested ground as CrowdStrike's agentic SOC and Google's Threat Hunt Agent — and coverage counted it as the company's seventh acquisition of 2026, which is the number that matters more than the price. The announcement landed alongside fourth-quarter results showing revenue of $3.41 billion against a $3.35 billion consensus, with fiscal 2027 revenue guided to $14.10–$14.20 billion. On the SIEM line specifically, Cortex XSIAM reported roughly 470 customers at an average of more than $1 million ARR each in the first quarter of fiscal 2026, including an $85 million contract with a large US telecom, and the company claims more than 60 percent of XSIAM customers have cut median time to respond from days or weeks to minutes. Earlier consolidation remains the frame: the $3.35 billion Chronosphere acquisition closed 29 January 2026, giving XSIAM an observability-grade telemetry pipeline, and the $25 billion CyberArk acquisition closed 11 February 2026, adding identity security. The strategic read is that Palo Alto is buying XSIAM's data layer, identity layer and agent layer rather than building them, which shortens the roadmap and leaves integration risk visible to buyers — the line of questioning Elastic field teams should press. Research caution: Cortex XSIAM 3.0 coverage is dated 28 April 2025 and reads as current in search results, so confirm the year before treating any XSIAM version announcement as new.</p>
+  </div>
+
+  <div class="vendor-card" data-vendor="microsoft">
+    <div class="card-head">
+      <h3 class="vendor-name">Microsoft</h3>
+      <span class="status-badge active">Active</span>
+    </div>
+    <p>Microsoft's September Patch Tuesday on 8 September 2026 was the largest on record. Vulnerability counts vary by methodology — Tenable counted 964 CVEs, BleepingComputer 966, SecurityWeek 974 — and two of them were already being exploited: CVE-2026-85880, a heap buffer overflow in Windows Advanced Local Procedure Call, and CVE-2026-81963, an improper link resolution issue in the Windows Update stack. Both are rated Important with a CVSS score of 7.8, both are local elevation-of-privilege paths to SYSTEM rather than remote compromise, and CISA added both to the Known Exploited Vulnerabilities catalogue the same day.</p>
+    <p>The consequential item is what happened immediately afterwards. Roughly two hours after the updates shipped, the researcher known as MSNightmare — the same person behind FalconFlank — published ShieldCrash, a proof-of-concept against the Microsoft Malware Protection Engine used by Defender, with full details and working code on GitHub. The claim is that Microsoft's fix for ShieldBreak (CVE-2026-69414) was incomplete and that ShieldCrash follows a still-unpatched path to read files as SYSTEM on all supported Windows versions, with the potential to be developed into full privilege escalation. This is now the third link in a chain: RoguePlanet (CVE-2026-50656), then ShieldBreak as a bypass of the RoguePlanet fix — CVE assigned 14 August 2026, and subject to a CISA BOD 26-04 14-day clock per Qualys — and now ShieldCrash as a bypass of the ShieldBreak fix. Two consecutive incomplete patches on the same component, in a window where Microsoft also set a patch-volume record, is a harder story to manage than any single CVE.</p>
+    <p><strong>Watch signal:</strong> the "one vendor, one agent, one console" argument that underpins Defender XDR plus Sentinel depends on the platform vendor's own remediation being trustworthy, and this window supplies two consecutive counter-examples on the same component. Elastic Security's opening is not schadenfreude but independence: detection content and endpoint telemetry that a customer owns and can query regardless of whether the platform vendor's fix held, plus the ability to correlate Defender and Windows signals in a SIEM that is not the same product being bypassed. Expect Microsoft-consolidation deals under evaluation to acquire a new question about single-vendor patch dependency.</p>
+    <p>Standing items: two dated deprecations land on 14 September 2026 and are the nearest Microsoft catalyst — the containerized SAP data connector agent is permanently disabled and stops delivering SAP logs to Sentinel, breaking any analytics rules, workbooks, hunting queries and playbooks that depend on them, and connectors and tables relying on the legacy HTTP Data Collector API become ineligible for Sentinel incident support. All new SAP deployments have been agentless-only since 31 October 2025. Structurally, the Azure portal UI for Sentinel retired in July 2026 and Sentinel now operates through the Microsoft Defender portal with full SIEM functionality retained, making the unified SOC platform — Sentinel, Defender XDR and Security Copilot on one data model — the only front door. MDTI is being folded into Sentinel and Defender XDR, with first-phase finished threat intelligence surfacing through threat analytics reports from October. The September "What's new in Microsoft Sentinel" post had not published as of 9 September. Research caution: the Sentinel data lake reached general availability on 30 September 2025 alongside the Sentinel graph and MCP server public previews, and that announcement matches September queries almost perfectly — it is not 2026 news.</p>
+  </div>
+
+  <div class="vendor-card no-update" data-vendor="splunk">
+    <div class="card-head">
+      <h3 class="vendor-name">Splunk (Cisco)</h3>
+      <span class="status-badge quiet">Quiet</span>
+    </div>
+    <p class="no-update-msg">Nothing from Splunk or Cisco security in the window, which is unsurprising five days out from the year's main launch event: .conf26 runs 14–17 September 2026 at the Colorado Convention Center in Denver, and any material Enterprise Security roadmap news should be assumed to be embargoed until then. That makes this the last quiet edition for Splunk in the near term and the right moment to fix the baseline. The current release is Splunk Enterprise Security 8.6.1, generally available 4 August 2026, which shipped the agentic SOC feature set: Detection Builder, Triage, Guided Response, Automation Builder, a Standard Operating Procedure agent that operationalises SOC runbooks inside response plans, and cloud-connected AI Assistant support. That release delivers on commitments Cisco made when it introduced the Essentials and Premier editions of Enterprise Security, and the direction of travel is a two-tier packaging model with agentic capability as the upgrade lever — the pricing dynamic Elastic should be prepared to compare against. Above the product, Cisco continues to frame the Cisco Data Fabric, launched at .conf25 and built on the Splunk Enterprise and Cloud platform, as the system of record and intelligence layer for the agentic enterprise, pairing Splunk telemetry with Cisco's networking telemetry. Research caution: this vendor is the worst offender for date confusion in the set. Cisco's "Elevates the SOC with Agentic AI" newsroom item, the Enterprise Security 8.2 launch and the Essentials/Premier edition news are all dated September 2025 and rank at the top of September 2026 queries; .conf and Cisco Live material recurs annually. Verify the year on any Splunk SOC announcement, and expect the .conf25 and .conf26 corpora to be difficult to separate for the next several weeks.</p>
+  </div>
+
+  <div class="vendor-card" data-vendor="googlesecops">
+    <div class="card-head">
+      <h3 class="vendor-name">Google SecOps</h3>
+      <span class="status-badge active">Active</span>
+    </div>
+    <p>Google Threat Intelligence Group published research on 8 September 2026 on UNC6780, also tracked as TeamPCP, described as the most active threat actor in the AI developer supply chain. The group ran a broad campaign from February to May 2026 across PyPI, npm and Docker Hub, deploying its Dustmaker credential stealer after initial compromise to harvest proprietary data and credentials, monetised either by direct sale or through partnerships with ransomware and extortion groups. The tradecraft is specific: abuse of the GitHub Actions pull_request_target trigger to obtain repository secrets and write permissions, extraction of tokens from the process memory of GitHub Actions runners so that compromised package versions pass valid automated trust checks, and placement of malicious files in hidden AI-coding-assistant workspace directories so the malware blends into developer noise. Named victims include the Bitwarden CLI npm package, briefly distributed with a malicious payload after a compromised GitHub Action injected code into the npm packaging step, and the xinference PyPI package, poisoned with a credential harvester extended to cryptocurrency wallet data. A companion GTIG AI threat tracker, "From Prompting to Autonomy," reported adversaries moving from prompt abuse to agent operation, with coverage on 8 September citing AI agents compressing credential theft to under six hours.</p>
+    <p>The competitive read is about where Google is choosing to differentiate. It is not matching CrowdStrike and Palo Alto announcement for announcement on agentic SOC features; it is publishing named-actor intelligence on the attack surface those very features run on, then wiring that intelligence into the product as agent-consumable context. The Threat Hunt Agent, in public preview for Enterprise Plus customers since early August 2026, is the delivery mechanism — a Gemini-powered agent that seeds autonomous hunts from Google Threat Intelligence objects such as an actor, campaign, malware family, toolkit or TTP, executes up to 30 steps over one to two hours and opens a case with its findings, with Mandiant frontline expertise and MITRE ATT&CK as the reasoning frame. A UNC6780 profile published on Monday becomes hunt input on Tuesday. That loop is the durable advantage, and it is harder to answer than a feature list.</p>
+    <p><strong>Watch signal:</strong> Elastic Security should treat this as a coverage question rather than an intelligence-packaging one. The techniques GTIG documents — CI/CD secret theft, GitHub Actions runner token extraction, package-registry publication abuse, malicious files staged in AI-assistant workspace directories — are detectable from logs Elastic customers already ingest, and open, inspectable detection rules for them are a credible differentiator against a closed intelligence-to-agent pipeline that only works if you buy the whole platform. The near-term risk is narrative: if Google owns the language of AI supply-chain compromise, Elastic ends up validating its taxonomy rather than setting one.</p>
+    <p>Standing items: the most recent community "What's New in Google SecOps" digests are dated 10 and 17 August 2026, with no September edition published as of 9 September. Three dates to track: consumption of purchased Google SecOps Security Tokens was delayed from 1 July 2026 to 1 September 2026 and has now begun; Stage 2 of the SOAR migration to Google Cloud was extended from 30 September to 30 November 2026; and the MANDIANT_ACTIVE_BREACH_IOC, MANDIANT_FUSION_IOC and OPEN_SOURCE_INTEL_IOC feeds are deprecated ahead of removal on 18 March 2027, with customers directed to the consolidated GTI_IOC feed. Recent smaller additions include Health Hub tables and a Data Health Deep Dive page for ingestion-latency monitoring, and a public preview of feed activity analysis through Cloud Logging for debugging ingestion pipelines. Research caution: Chronicle-era launch material remains heavily indexed and is undated in places; prefer the Google Cloud release notes over blog coverage when confirming timing.</p>
+  </div>
+
+  <h2 class="section">Further reading</h2>
+
+  <div class="fr-block" data-vendor="crowdstrike">
+    <h4 class="fr-vendor">CrowdStrike</h4>
+    <ul>
+      <li><a href="https://www.bleepingcomputer.com/news/security/new-crowdstrike-falconflank-zero-day-grants-system-privileges/">New CrowdStrike 'FalconFlank' zero-day grants SYSTEM privileges — BleepingComputer</a></li>
+      <li><a href="https://thehackernews.com/2026/09/researcher-releases-falconflank-poc.html">Researcher releases FalconFlank PoC showing privilege escalation in CrowdStrike Falcon — The Hacker News</a></li>
+      <li><a href="https://www.secureinseconds.com/blog/2026-09-06-crowdstrike-falconflank-zero-day-edr-supply-chain">FalconFlank and what the third EDR zero-day in five weeks says about containment, not patching — Secure in Seconds</a></li>
+      <li><a href="https://socradar.io/blog/falconflank-crowdstrike-falcon-0day-poc/">FalconFlank: CrowdStrike Falcon 0-day PoC — SOCRadar</a></li>
+      <li><a href="https://securityaffairs.com/198342/hacking/chaotic-eclipse-releases-crowdstrike-falcon-zeroday-falconflank.html">Chaotic Eclipse releases CrowdStrike Falcon zero-day FalconFlank — Security Affairs</a></li>
+      <li><a href="https://www.crowdstrike.com/en-us/blog/patch-tuesday-analysis-september-2026/">September 2026 Patch Tuesday: updates and analysis — CrowdStrike blog</a></li>
+    </ul>
+  </div>
+
+  <div class="fr-block" data-vendor="microsoft">
+    <h4 class="fr-vendor">Microsoft</h4>
+    <ul>
+      <li><a href="https://www.bleepingcomputer.com/news/microsoft/microsoft-september-2026-patch-tuesday-fixes-966-flaws-2-zero-days/">Microsoft September 2026 Patch Tuesday fixes 966 flaws and 2 zero-days — BleepingComputer</a></li>
+      <li><a href="https://www.securityweek.com/microsoft-patches-record-974-vulnerabilities-including-two-exploited-zero-days/">Microsoft patches record 974 vulnerabilities, including two exploited zero-days — SecurityWeek</a></li>
+      <li><a href="https://www.tenable.com/blog/microsofts-september-2026-patch-tuesday-addresses-964-cves-cve-2026-81963-cve-2026-85880">Microsoft's September 2026 Patch Tuesday addresses 964 CVEs — Tenable</a></li>
+      <li><a href="https://securityonline.info/windows-defender-0day-cve-2026-69414/">ShieldCrash: Windows Defender 0day with public PoC exploit — SecurityOnline</a></li>
+      <li><a href="https://blog.qualys.com/product-tech/2026/08/24/shieldbreak-the-windows-defender-zero-day-with-no-patch-detect-it-mitigate-it-with-qualys">CVE-2026-69414 ShieldBreak: no patch, and CISA BOD 26-04 gives you 14 days — Qualys</a></li>
+      <li><a href="https://techcommunity.microsoft.com/blog/microsoft-security-blog/action-required-transition-from-http-data-collector-api-in-microsoft-sentinel/4499777">Action required: transition from HTTP Data Collector API in Microsoft Sentinel — Microsoft Community Hub</a></li>
+      <li><a href="https://techcommunity.microsoft.com/blog/microsoftsentinelblog/microsoft-sentinel-for-sap-agentless-connector-ga/4464490">Microsoft Sentinel for SAP agentless connector GA — Microsoft Community Hub</a></li>
+    </ul>
+  </div>
+
+  <div class="fr-block" data-vendor="googlesecops">
+    <h4 class="fr-vendor">Google SecOps</h4>
+    <ul>
+      <li><a href="https://labs.cloudsecurityalliance.org/research/csa-research-note-teampcp-unc6780-ai-developer-supply-chain/">TeamPCP (UNC6780): the AI supply chain's most active threat actor — Cloud Security Alliance Labs</a></li>
+      <li><a href="https://www.infosecurity-magazine.com/news/ai-coding-tools-threat-actors/">AI coding tools now a prime target for threat actors, Google warns — Infosecurity Magazine</a></li>
+      <li><a href="https://siliconangle.com/2026/09/08/google-says-attackers-used-ai-agents-to-steal-credentials-in-under-six-hours/">Google says attackers used AI agents to steal credentials in under six hours — SiliconANGLE</a></li>
+      <li><a href="https://cloud.google.com/blog/topics/threat-intelligence/from-prompting-to-autonomy-the-evolution-of-adversarial-ai">GTIG AI threat tracker: from prompting to autonomy — Google Cloud blog</a></li>
+      <li><a href="https://docs.cloud.google.com/chronicle/docs/secops/release-notes">Google Security Operations release notes — Google Cloud documentation</a></li>
+    </ul>
+  </div>
+
+  <footer class="site">
+    <p>Security competitive intelligence · 72-hour pulse · compiled for Elastic Security product marketing.
+    <a href="https://frankswain-png.github.io/security_compintel/archive/security_archive.html">View archive</a></p>
+  </footer>
+
+</div>
+
+<script>
+(function () {
+  var buttons = document.querySelectorAll('.filter-btn');
+  var targets = document.querySelectorAll('[data-vendor]');
+
+  function apply(vendor) {
+    targets.forEach(function (el) {
+      if (el.classList.contains('filter-btn')) return;
+      var show = (vendor === 'all') || (el.getAttribute('data-vendor') === vendor);
+      el.style.display = show ? '' : 'none';
+    });
+    buttons.forEach(function (b) {
+      b.classList.toggle('selected', b.getAttribute('data-vendor') === vendor);
+    });
+  }
+
+  buttons.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-vendor'));
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
