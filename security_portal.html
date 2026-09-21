@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Security competitive intelligence — Elastic</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Mono&display=swap" rel="stylesheet">
+<style>
+:root{
+  --elastic-blue:#0B64DD;
+  --light-teal:#48EFCF;
+  --midnight:#153385;
+  --developer-blue:#101C3F;
+  --dark-ink:#1C1E23;
+  --ink:#343741;
+  --light-grey:#F5F7FA;
+  --medium-grey:#D3DAE6;
+  --white:#FFFFFF;
+  --font-body:'Inter',Arial,sans-serif;
+  --font-code:'Space Mono',monospace;
+}
+*{box-sizing:border-box;}
+body{
+  margin:0;
+  padding:0;
+  font-family:var(--font-body);
+  color:var(--ink);
+  background:var(--white);
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1080px;margin:0 auto;padding:0 28px 64px;}
+
+/* header */
+.site-header{
+  background:var(--elastic-blue);
+  color:var(--white);
+  padding:40px 0 34px;
+}
+.site-header .wrap{padding-bottom:0;}
+.header-top{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:24px;
+  flex-wrap:wrap;
+}
+.site-header h1{
+  font-size:30px;
+  font-weight:700;
+  margin:0 0 8px;
+  letter-spacing:-0.01em;
+}
+.subtitle{
+  margin:0;
+  font-size:14px;
+  font-weight:500;
+  color:rgba(255,255,255,0.86);
+}
+.archive-link{
+  display:inline-block;
+  background:rgba(255,255,255,0.14);
+  border:1px solid rgba(255,255,255,0.45);
+  color:var(--white);
+  text-decoration:none;
+  font-size:13px;
+  font-weight:600;
+  padding:8px 16px;
+  border-radius:6px;
+  white-space:nowrap;
+  transition:background .15s ease;
+}
+.archive-link:hover{background:rgba(255,255,255,0.26);}
+
+.solution-nav{
+  display:flex;
+  gap:6px;
+  margin-top:26px;
+  border-bottom:1px solid rgba(255,255,255,0.28);
+}
+.solution-nav a{
+  display:block;
+  padding:10px 18px;
+  font-size:13px;
+  font-weight:600;
+  text-decoration:none;
+  color:rgba(255,255,255,0.78);
+  border-bottom:3px solid transparent;
+  margin-bottom:-1px;
+}
+.solution-nav a:hover{color:var(--white);}
+.solution-nav a.current{
+  color:var(--white);
+  border-bottom-color:var(--light-teal);
+}
+
+.meta-row{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  align-items:center;
+  padding:22px 0 0;
+}
+.meta-chip{
+  font-size:12px;
+  font-weight:600;
+  padding:5px 12px;
+  border-radius:20px;
+  background:rgba(255,255,255,0.14);
+  color:var(--white);
+  border:1px solid rgba(255,255,255,0.45);
+}
+.meta-chip.mono{font-family:var(--font-code);font-size:11px;}
+
+/* filter bar */
+.filter-bar{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  gap:8px;
+  margin-top:24px;
+  padding:14px 16px;
+  background:var(--light-grey);
+  border:1px solid var(--medium-grey);
+  border-radius:8px;
+}
+.filter-label{
+  font-size:12px;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:0.06em;
+  color:var(--ink);
+  margin-right:4px;
+}
+.filter-pill{
+  font-family:var(--font-body);
+  font-size:13px;
+  font-weight:600;
+  padding:6px 14px;
+  border-radius:20px;
+  border:1px solid var(--medium-grey);
+  background:var(--white);
+  color:var(--ink);
+  cursor:pointer;
+  transition:all .12s ease;
+}
+.filter-pill:hover{border-color:var(--elastic-blue);color:var(--elastic-blue);}
+.filter-pill.on{
+  background:var(--elastic-blue);
+  border-color:var(--elastic-blue);
+  color:var(--white);
+}
+.filter-reset{
+  font-family:var(--font-body);
+  font-size:12px;
+  font-weight:600;
+  padding:6px 12px;
+  border:none;
+  background:transparent;
+  color:var(--elastic-blue);
+  cursor:pointer;
+  text-decoration:underline;
+}
+.filter-count{
+  margin-left:auto;
+  font-size:12px;
+  font-weight:600;
+  color:var(--ink);
+  font-family:var(--font-code);
+}
+
+/* sections */
+section{margin-top:44px;}
+.section-label{
+  font-size:20px;
+  font-weight:700;
+  color:var(--dark-ink);
+  margin:0 0 6px;
+  letter-spacing:-0.01em;
+}
+.section-label::after{
+  content:'';
+  display:block;
+  width:72px;
+  height:3px;
+  background:var(--light-teal);
+  border-radius:2px;
+  margin-top:8px;
+  margin-bottom:18px;
+}
+h3{
+  font-size:17px;
+  font-weight:700;
+  color:var(--dark-ink);
+  margin:0;
+  letter-spacing:-0.01em;
+}
+
+/* quick read / tldr */
+.quick-read{
+  background:var(--light-grey);
+  border-left:4px solid var(--elastic-blue);
+  border-radius:0 8px 8px 0;
+  padding:20px 24px;
+}
+.quick-read-label{
+  font-size:11px;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:0.08em;
+  color:var(--elastic-blue);
+  margin-bottom:8px;
+  display:block;
+}
+.quick-read p{margin:0;font-size:15px;}
+.quick-read strong{color:var(--dark-ink);font-weight:700;}
+
+/* summary section */
+.summary-section{
+  display:flex;
+  flex-direction:column;
+  gap:0;
+  border-top:2px solid var(--medium-grey);
+}
+.summary-row{
+  display:grid;
+  grid-template-columns:16% 52% 32%;
+  gap:14px;
+  padding:16px 4px;
+  border-bottom:1px solid var(--medium-grey);
+}
+.summary-row .vendor-name{
+  font-weight:700;
+  color:var(--dark-ink);
+  font-size:14px;
+}
+.summary-row .dev-text{font-size:14px;}
+.summary-row.no-update{background:var(--light-grey);}
+.summary-row.no-update .vendor-name{color:var(--ink);}
+.watch-signal{
+  display:block;
+  font-size:13px;
+  color:var(--ink);
+  border-left:3px solid var(--light-teal);
+  padding-left:12px;
+}
+.no-update-text{color:var(--ink);opacity:.72;font-style:italic;}
+
+@media (max-width:760px){
+  .summary-row{grid-template-columns:1fr;}
+}
+
+/* vendor cards */
+.vendors-grid{display:flex;flex-direction:column;gap:20px;}
+.vendor-card{
+  border:1px solid var(--developer-blue);
+  border-radius:10px;
+  background:var(--white);
+  padding:24px 26px;
+}
+.vendor-card.no-update{
+  background:var(--light-grey);
+  border-color:var(--medium-grey);
+}
+.card-head{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin-bottom:6px;
+}
+.card-rule{
+  width:60px;
+  height:3px;
+  background:var(--light-teal);
+  border-radius:2px;
+  margin-bottom:14px;
+}
+.status-badge{
+  font-size:10px;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:0.08em;
+  padding:3px 10px;
+  border-radius:12px;
+  white-space:nowrap;
+}
+.status-badge.active{background:var(--light-teal);color:var(--dark-ink);}
+.status-badge.quiet{background:var(--medium-grey);color:var(--ink);}
+.vendor-card p{font-size:14.5px;margin:0 0 14px;}
+.vendor-card p:last-child{margin-bottom:0;}
+.vendor-card strong{color:var(--dark-ink);font-weight:700;}
+.no-update-msg{font-size:14.5px;margin:0;}
+
+/* further reading */
+.further-reading{display:flex;flex-direction:column;gap:24px;}
+.fr-vendor h3{font-size:15px;margin-bottom:10px;}
+.fr-vendor ul{margin:0;padding-left:20px;list-style:none;}
+.fr-vendor li{margin-bottom:7px;font-size:14px;}
+.fr-link{color:var(--elastic-blue);text-decoration:none;}
+.fr-link:hover{text-decoration:underline;}
+
+/* footer */
+.site-footer{
+  margin-top:56px;
+  border-top:1px solid var(--medium-grey);
+  padding:24px 0 48px;
+  font-size:12.5px;
+  color:var(--ink);
+}
+.site-footer .wrap{padding-bottom:0;}
+.site-footer a{color:var(--elastic-blue);text-decoration:none;}
+.site-footer a:hover{text-decoration:underline;}
+.footer-note{font-weight:600;color:var(--dark-ink);margin:0 0 4px;}
+
+.hidden{display:none !important;}
+
+@media (max-width:760px){
+  .wrap{padding:0 18px 48px;}
+  .site-header h1{font-size:24px;}
+  .filter-count{margin-left:0;width:100%;}
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <div class="header-top">
+      <div>
+        <h1>Security competitive intelligence</h1>
+        <p class="subtitle">CrowdStrike · SentinelOne · Palo Alto Networks · Microsoft · Splunk (Cisco) · Google SecOps</p>
+      </div>
+      <a class="archive-link" href="https://frankswain-png.github.io/security_compintel/archive/security_archive.html">📁 Archive</a>
+    </div>
+    <nav class="solution-nav">
+      <a class="current" href="https://frankswain-png.github.io/security_compintel/">Security</a>
+      <a href="https://frankswain-png.github.io/o11y_compintel/">Observability</a>
+      <a href="https://frankswain-png.github.io/search_compintel/">Search</a>
+    </nav>
+    <div class="meta-row">
+      <span class="meta-chip">72-hour pulse</span>
+      <span class="meta-chip">18 Sep – 21 Sep 2026</span>
+      <span class="meta-chip mono">Last updated: 21 Sep 2026, 07:39 UTC</span>
+      <span class="meta-chip">Refreshed every weekday morning</span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <div class="filter-bar">
+    <span class="filter-label">Show</span>
+    <button class="filter-pill on" data-vendor="crowdstrike">CrowdStrike</button>
+    <button class="filter-pill on" data-vendor="sentinelone">SentinelOne</button>
+    <button class="filter-pill on" data-vendor="paloalto">Palo Alto Networks</button>
+    <button class="filter-pill on" data-vendor="microsoft">Microsoft</button>
+    <button class="filter-pill on" data-vendor="splunk">Splunk (Cisco)</button>
+    <button class="filter-pill on" data-vendor="googlesecops">Google SecOps</button>
+    <button class="filter-reset" id="resetFilters">Reset</button>
+    <span class="filter-count" id="filterCount">6 of 6 vendors</span>
+  </div>
+
+  <section class="quick-read">
+    <span class="quick-read-label">TLDR</span>
+    <p>This was a rare quiet window across the board: none of the six vendors produced a verifiable product launch, acquisition, partnership or threat-research finding dated between 18 and 21 September. The lull follows an unusually dense run of vendor set-pieces — <strong>CrowdStrike's</strong> Fal.Con, the Goldman Sachs Communacopia investor stage, <strong>Splunk's</strong> .conf26 and Mandiant's Cyber Defense Summit all landed in the three weeks prior — and this window itself spans a weekend, when vendor press activity typically drops off. The two standing stories worth tracking are unchanged and simply older: <strong>CrowdStrike's</strong> FalconFlank privilege-escalation flaw in the Falcon sensor has now gone 18 days without a CVE, a CVSS score or a sensor fix, and <strong>Microsoft's</strong> ShieldCrash bypass of the Defender ShieldBreak patch (CVE-2026-69414) has gone 13 days without acknowledgement — both remain open, uncatalogued issues rather than new developments this cycle. All six vendors — <strong>CrowdStrike, SentinelOne, Palo Alto Networks, Microsoft, Splunk</strong> and <strong>Google SecOps</strong> — were quiet on new announcements this window. Watch for <strong>SentinelOne's</strong> OneCon26 (20–22 October, Las Vegas) and Microsoft Ignite, expected in November, as the next likely sources of competitive news.</p>
+  </section>
+
+  <section>
+    <div class="section-label">At a glance</div>
+    <div class="summary-section">
+
+      <div class="summary-row no-update" data-vendor="crowdstrike">
+        <div class="vendor-name">CrowdStrike</div>
+        <div class="dev-text"><span class="no-update-text">No significant updates in the past 72 hours.</span></div>
+        <div><span class="no-update-text">—</span></div>
+      </div>
+
+      <div class="summary-row no-update" data-vendor="sentinelone">
+        <div class="vendor-name">SentinelOne</div>
+        <div class="dev-text"><span class="no-update-text">No significant updates in the past 72 hours.</span></div>
+        <div><span class="no-update-text">—</span></div>
+      </div>
+
+      <div class="summary-row no-update" data-vendor="paloalto">
+        <div class="vendor-name">Palo Alto Networks</div>
+        <div class="dev-text"><span class="no-update-text">No significant updates in the past 72 hours.</span></div>
+        <div><span class="no-update-text">—</span></div>
+      </div>
+
+      <div class="summary-row no-update" data-vendor="microsoft">
+        <div class="vendor-name">Microsoft</div>
+        <div class="dev-text"><span class="no-update-text">No significant updates in the past 72 hours.</span></div>
+        <div><span class="no-update-text">—</span></div>
+      </div>
+
+      <div class="summary-row no-update" data-vendor="splunk">
+        <div class="vendor-name">Splunk (Cisco)</div>
+        <div class="dev-text"><span class="no-update-text">No significant updates in the past 72 hours.</span></div>
+        <div><span class="no-update-text">—</span></div>
+      </div>
+
+      <div class="summary-row no-update" data-vendor="googlesecops">
+        <div class="vendor-name">Google SecOps</div>
+        <div class="dev-text"><span class="no-update-text">No significant updates in the past 72 hours.</span></div>
+        <div><span class="no-update-text">—</span></div>
+      </div>
+
+    </div>
+  </section>
+
+  <section>
+    <div class="section-label">Vendor details</div>
+    <div class="vendors-grid">
+
+      <div class="vendor-card no-update" data-vendor="crowdstrike">
+        <div class="card-head">
+          <h3>CrowdStrike</h3>
+          <span class="status-badge quiet">Quiet</span>
+        </div>
+        <div class="card-rule"></div>
+        <p class="no-update-msg">Nothing verifiable landed from CrowdStrike in the 18–21 September window — no product launch, acquisition or partnership dated inside it. The most recent CrowdStrike news predates the window and was already reported: a Leader placement in The Forrester Wave: External Threat Intelligence Service Providers, Q3 2026 (17 September), and Gartner Peer Insights "Voice of the Customer" Customers' Choice recognitions spanning Identity Threat Detection and Response, SIEM, User Authentication and Managed Detection and Response (16 September) — all analyst validation rather than new product news.</p>
+        <p>The standing story remains FalconFlank, the Falcon sensor privilege-escalation proof-of-concept published 3 September by a researcher operating as Chaotic Eclipse. As of 21 September, 18 days on, CrowdStrike has confirmed no CVE, published no CVSS score and shipped no sensor fix; the only guidance remains disabling the "Microsoft Office File Suspicious Macro Removal" Windows policy in favour of Cloud Anti-malware for Microsoft Office Files. No in-the-wild exploitation has been identified in that time, which keeps this a governance question rather than an active incident.</p>
+        <p><strong>Watch signal:</strong> 18 days without a CVE or fix on a privilege-escalation path in a security agent that runs with elevated trust is now a long enough gap to raise in patch-discipline conversations, independent of CrowdStrike's separate analyst-validation wins. Keep the framing architectural — agent blast radius — rather than campaigning on an unresolved flaw with no confirmed exploitation.</p>
+        <p>Standing items: Fal.Con 2026 (31 August–3 September) has closed; SafeMind, Falcon Guardian AIDR and Falcon OverWatch for Defender remain the live competitive set from that event. Research caution: Fal.Con and CrowdStrike's Patch Tuesday analyses recur on fixed annual and monthly cadences respectively — confirm the year before treating either as current.</p>
+      </div>
+
+      <div class="vendor-card no-update" data-vendor="sentinelone">
+        <div class="card-head">
+          <h3>SentinelOne</h3>
+          <span class="status-badge quiet">Quiet</span>
+        </div>
+        <div class="card-rule"></div>
+        <p class="no-update-msg">Nothing verifiable landed from SentinelOne in the 18–21 September window. The most recent substantive news predates it and was already covered: Latio named SentinelOne an AI Security Platform Leader in its 2026 AI Security Market Report on 15 September, the company's second Latio placement in three months after a June SOC Platform Leader rating.</p>
+        <p>LABScon 2026, the invite-only threat-research conference SentinelOne sponsors, ran 16–19 September at the Omni Scottsdale Resort in Arizona and concluded inside this window on its final day. It is a security-research community event rather than a SentinelOne product showcase, and no company-specific announcement from it surfaced in this run's research.</p>
+        <p><strong>Watch signal:</strong> SentinelOne's own conference calendar points to the next likely source of news — OneCon26 runs 20–22 October in Las Vegas, roughly a month out, and is the venue where the company has historically made its major AI-security product announcements.</p>
+        <p>Standing items: second-quarter fiscal 2027 results (27 August, for the quarter ended 31 July) remain the latest financials — revenue up 21% year over year to $292 million, record Q2 net new ARR of $56 million. SentinelOne remains a Leader in the 2026 Gartner Magic Quadrant for Endpoint Protection Platforms. Research caution: SentinelOne's fiscal year runs a year ahead of the calendar — verify the quarter-end date, not the fiscal label, on any results coverage.</p>
+      </div>
+
+      <div class="vendor-card no-update" data-vendor="paloalto">
+        <div class="card-head">
+          <h3>Palo Alto Networks</h3>
+          <span class="status-badge quiet">Quiet</span>
+        </div>
+        <div class="card-rule"></div>
+        <p class="no-update-msg">Nothing verifiable landed from Palo Alto Networks in the 18–21 September window — no product announcement, partnership or threat research of competitive note. An 18 September Bernstein downgrade from Outperform to Market Perform, on sector valuation grounds, is a stock-analyst rating rather than a security development and is not treated as an update here; it was also already noted in the previous edition.</p>
+        <p>The most recent substantive news remains the 1 September acquisition of Console, an AI-native agentic-workflow platform being folded into Cortex, still without a disclosed integration timeline. Standing commercial baseline: fourth-quarter fiscal 2026 revenue of $3.41 billion (reported 1 September) against fiscal 2027 guidance of $14.10–$14.20 billion, and Cortex XSIAM at roughly 470 customers each averaging more than $1 million ARR, including an $85 million contract with a large US telecom.</p>
+        <p><strong>Watch signal:</strong> Sovereign Cortex with T-Security, the data-sovereignty partnership Palo Alto announced with Deutsche Telekom in June for European regulated industries, was slated for initial release in Q3 2026 — a window that closes at the end of this month. Worth verifying directly with Palo Alto or Deutsche Telekom before the next edition, since a Q3 slip would be a more concrete story than anything found this window.</p>
+        <p>Research caution: this vendor is badly served by date-blind search; Cortex AgentiX (28 October 2025) and Cortex XSIAM 3.0 (28 April 2025) both continue to surface as if current. Confirm the year before treating any XSIAM version or AgentiX item as new.</p>
+      </div>
+
+      <div class="vendor-card no-update" data-vendor="microsoft">
+        <div class="card-head">
+          <h3>Microsoft</h3>
+          <span class="status-badge quiet">Quiet</span>
+        </div>
+        <div class="card-rule"></div>
+        <p class="no-update-msg">Nothing new landed from Microsoft Security in the 18–21 September window — no product announcement, blog post or partnership dated inside it.</p>
+        <p>The standing story remains ShieldCrash, the Defender privilege-escalation bypass published 8 September, hours after September Patch Tuesday shipped the fix for ShieldBreak (CVE-2026-69414, CVSS 7.8) in the Microsoft Malware Protection Engine. As of 21 September, 13 days on, Microsoft has still not publicly confirmed the bypass, assigned it a separate CVE, or committed to a further Defender update. The proof-of-concept demonstrates an arbitrary file read as SYSTEM rather than a full SYSTEM shell, and no in-the-wild exploitation has been identified.</p>
+        <p><strong>Watch signal:</strong> this is the third disclosure on the same Malware Protection Engine component in four months (RoguePlanet in June, ShieldBreak in August, ShieldCrash in September), with two incomplete patches. The "one vendor, one agent, one console" premise behind Defender XDR plus Sentinel depends on the platform vendor's own remediation holding, and it hasn't on this component three times running — a fair, architecture-first point for independence-of-detection conversations.</p>
+        <p>Standing items: the Microsoft Defender Threat Intelligence convergence completed its first phase on 1 August, folding standalone MDTI capabilities into Defender and Sentinel at no additional cost. Microsoft Sentinel has been supported only in the Defender portal since July 2026, with the Azure portal experience scheduled to retire 31 March 2027. Research caution: Microsoft Ignite, the usual venue for major Sentinel and Defender XDR announcements, runs in November each year (Ignite 2025 was 17–21 November); any "Ignite 2026" security coverage surfacing before then is last year's event.</p>
+      </div>
+
+      <div class="vendor-card no-update" data-vendor="splunk">
+        <div class="card-head">
+          <h3>Splunk (Cisco)</h3>
+          <span class="status-badge quiet">Quiet</span>
+        </div>
+        <div class="card-rule"></div>
+        <p class="no-update-msg">Nothing new landed from Splunk or Cisco Security in the 18–21 September window, which is the expected pattern for a vendor days out from the close of its main annual event. .conf26 ran 14–17 September in Denver and concluded before this window opened.</p>
+        <p>The two connected announcements from .conf26 — Splunk and AWS's expanded multi-year partnership to co-engineer an agentic SOC on AWS infrastructure (15 September), and the expanded four-domain Agentic SOC Workforce plus new Exposure Analytics capabilities in Enterprise Security (16 September) — were both covered in the previous edition and are not new here. Cisco separately detailed a related on-premises push, Cisco AI POD for Splunk built with NVIDIA, in a 15 September press release; it extends the same agentic-SOC and AI-observability themes to self-managed customers rather than adding a distinct security development.</p>
+        <p><strong>Watch signal:</strong> with .conf26 closed, expect the next wave of Enterprise Security detail to surface as adoption and case-study coverage rather than fresh announcements for the next several weeks — a useful lull for Elastic Security to get ahead of the AWS-native agentic SOC narrative before deal cycles pick it up.</p>
+        <p>Standing items: Splunk Enterprise Security 8.7.0, which carries the underlying Exposure Analytics and agent framework, shipped 2 September, before the .conf26 window. The Splunkie Awards were presented during the .conf26 keynote to Verizon, Global Emancipation Network, Trafikverket, UnitedHealth Group and Anthropic.</p>
+      </div>
+
+      <div class="vendor-card no-update" data-vendor="googlesecops">
+        <div class="card-head">
+          <h3>Google SecOps</h3>
+          <span class="status-badge quiet">Quiet</span>
+        </div>
+        <div class="card-rule"></div>
+        <p class="no-update-msg">Nothing new landed from Google SecOps in the 18–21 September window. A Mandiant/GTIG report titled "UNC1860 and the Temple of Oats" surfaced repeatedly in this run's searches dated to "19 September" and describing an Iranian state-sponsored access broker — but it is dated 19 September 2024, exactly two years before this window, and is not new. It is flagged here specifically because it is the kind of date-matched trap this report is built to catch.</p>
+        <p>The most recent genuine Google SecOps news predates the window and was already covered: Mandiant and GTIG's Cyber Defense Summit ran 15–16 September in Washington DC, where GTIG VP Sandra Joyce held a mainstage fireside chat with CISA's acting director.</p>
+        <p><strong>Watch signal:</strong> no new watch signal this window; the standing one remains Google's use of Mandiant/GTIG as a policy-adjacent voice ahead of government and critical-infrastructure sales cycles, a lane worth tracking in regulated-sector competitive situations.</p>
+        <p>Standing items: the Threat Hunt Agent has been in public preview for Enterprise Plus customers since early August. Stage 2 of the SOAR migration to Google Cloud has been extended to 30 November 2026, having already slipped once from 30 September — re-verify before any customer conversation relies on it. Legacy Backstory and Ingestion APIs are being deprecated in favour of the modern Chronicle API, with new instances provisioned from 26 October 2026 losing legacy API support. Research caution: Chronicle- and Mandiant-era research is heavily indexed and often undated in search snippets; always confirm the year directly on the source page, as the UNC1860 case above demonstrates.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <section>
+    <div class="section-label">Further reading</div>
+    <div class="further-reading">
+
+      <p class="no-update-msg">No vendor produced a verifiable, in-window development this edition, so there are no new source links to list. See each vendor's standing items above for the sources behind the recurring stories (FalconFlank, ShieldCrash, and the recent conference and analyst-placement recap).</p>
+
+    </div>
+  </section>
+
+</div>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <p class="footer-note">Elastic — Internal competitive intelligence · Not for external distribution</p>
+    <p>Regenerated every weekday morning · <a href="mailto:frank.swain@elastic.co">frank.swain@elastic.co</a> · <a href="https://frankswain-png.github.io/security_compintel/archive/security_archive.html">View archive</a></p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var STORAGE_KEY = 'compintel-security-hidden-vendors';
+  var pills = Array.prototype.slice.call(document.querySelectorAll('.filter-pill'));
+  var resetBtn = document.getElementById('resetFilters');
+  var counter = document.getElementById('filterCount');
+  var total = pills.length;
+
+  function loadHidden(){
+    try {
+      var raw = localStorage.getItem(STORAGE_KEY);
+      var arr = raw ? JSON.parse(raw) : [];
+      return Array.isArray(arr) ? arr : [];
+    } catch(e) { return []; }
+  }
+  function saveHidden(arr){
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(arr)); } catch(e) {}
+  }
+
+  var hidden = loadHidden();
+
+  function isHidden(v){ return hidden.indexOf(v) !== -1; }
+
+  function render(){
+    pills.forEach(function(p){
+      var v = p.getAttribute('data-vendor');
+      if (isHidden(v)) { p.classList.remove('on'); } else { p.classList.add('on'); }
+    });
+    var nodes = document.querySelectorAll('.summary-row, .vendor-card, .fr-vendor');
+    Array.prototype.forEach.call(nodes, function(node){
+      var v = node.getAttribute('data-vendor');
+      if (isHidden(v)) { node.classList.add('hidden'); } else { node.classList.remove('hidden'); }
+    });
+    var shown = total - hidden.length;
+    counter.textContent = shown + ' of ' + total + ' vendors';
+  }
+
+  pills.forEach(function(p){
+    p.addEventListener('click', function(){
+      var v = p.getAttribute('data-vendor');
+      var idx = hidden.indexOf(v);
+      if (idx === -1) { hidden.push(v); } else { hidden.splice(idx, 1); }
+      saveHidden(hidden);
+      render();
+    });
+  });
+
+  resetBtn.addEventListener('click', function(){
+    hidden = [];
+    saveHidden(hidden);
+    render();
+  });
+
+  render();
+})();
+</script>
+
+</body>
+</html>
