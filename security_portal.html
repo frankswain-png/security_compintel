@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Security competitive intelligence — 72-hour pulse</title>
+<style>
+:root{
+  --elastic-blue:#0B64DD;
+  --light-teal:#48EFCF;
+  --ink:#1c1e23;
+  --ink-soft:#343741;
+  --muted:#69707d;
+  --line:#d3dae6;
+  --bg:#f7f8fc;
+  --card:#ffffff;
+  --quiet-bg:#f5f7fa;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--ink);
+  font-family:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+  font-size:15px;
+  line-height:1.62;
+  -webkit-font-smoothing:antialiased;
+}
+a{color:var(--elastic-blue);text-decoration:none}
+a:hover{text-decoration:underline}
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px 72px}
+
+.site-header{
+  background:var(--elastic-blue);
+  color:#fff;
+  padding:34px 0 0;
+  border-bottom:3px solid var(--light-teal);
+}
+.header-inner{max-width:1080px;margin:0 auto;padding:0 24px}
+.header-top{display:flex;justify-content:space-between;align-items:flex-start;gap:24px;flex-wrap:wrap}
+h1{font-size:30px;line-height:1.2;margin:0 0 6px;font-weight:700;letter-spacing:-0.4px}
+.subtitle{display:block;font-size:15px;font-weight:400;color:#dbe9ff;margin-top:8px;letter-spacing:0}
+.archive-link{
+  display:inline-block;
+  border:1px solid rgba(255,255,255,0.45);
+  color:#fff;
+  padding:7px 16px;
+  border-radius:4px;
+  font-size:13px;
+  white-space:nowrap;
+}
+.archive-link:hover{background:rgba(255,255,255,0.12);text-decoration:none;border-color:var(--light-teal)}
+.solution-nav{display:flex;gap:4px;margin-top:26px}
+.solution-nav a{padding:10px 18px;font-size:14px;color:#cfe0ff;border-bottom:3px solid transparent;margin-bottom:-3px}
+.solution-nav a:hover{color:#fff;text-decoration:none}
+.solution-nav a.current{color:#fff;font-weight:600;border-bottom-color:var(--light-teal)}
+
+.meta-row{display:flex;gap:10px;flex-wrap:wrap;margin:26px 0 0;padding-bottom:26px}
+.meta-chip{
+  background:rgba(255,255,255,0.12);
+  border:1px solid rgba(255,255,255,0.3);
+  border-radius:20px;
+  padding:5px 15px;
+  font-size:13px;
+  color:#fff;
+  font-variant-numeric:tabular-nums;
+}
+.meta-chip.range{border-color:var(--light-teal);background:rgba(72,239,207,0.18);font-weight:600}
+
+section{margin-top:40px}
+.section-label{
+  font-size:13px;
+  text-transform:uppercase;
+  letter-spacing:1.1px;
+  color:var(--muted);
+  font-weight:700;
+  margin:0 0 14px;
+  padding-bottom:8px;
+  border-bottom:1px solid var(--line);
+}
+.quick-read{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-left:4px solid var(--light-teal);
+  border-radius:5px;
+  padding:22px 26px;
+  margin-top:32px;
+}
+.quick-read .label{
+  display:block;
+  font-size:12px;
+  text-transform:uppercase;
+  letter-spacing:0.8px;
+  color:var(--muted);
+  font-weight:700;
+  margin-bottom:10px;
+}
+.quick-read p{margin:0;font-size:15.5px;line-height:1.7}
+
+.filter-bar{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  flex-wrap:wrap;
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:5px;
+  padding:12px 16px;
+  margin-top:32px;
+}
+.filter-bar .label{font-size:12px;text-transform:uppercase;letter-spacing:0.8px;color:var(--muted);font-weight:700;margin-right:4px}
+.filter-pill{
+  border:1px solid var(--line);
+  background:#fff;
+  color:var(--ink-soft);
+  border-radius:16px;
+  padding:5px 14px;
+  font-size:13px;
+  font-family:inherit;
+  cursor:pointer;
+  transition:opacity .15s ease;
+}
+.filter-pill:hover{border-color:var(--light-teal)}
+.filter-pill.is-on{background:var(--elastic-blue);border-color:var(--elastic-blue);color:#fff;font-weight:600}
+.filter-pill.is-off{opacity:.5}
+.filter-reset{
+  border:1px dashed var(--muted);
+  background:none;
+  color:var(--muted);
+  border-radius:16px;
+  padding:5px 14px;
+  font-size:13px;
+  font-family:inherit;
+  cursor:pointer;
+}
+.filter-reset:hover{color:var(--ink);border-color:var(--ink)}
+.filter-count{margin-left:auto;font-size:12.5px;color:var(--muted)}
+
+.table-shell{background:var(--card);border:1px solid var(--line);border-radius:5px;overflow:hidden}
+.summary-section{background:var(--card);border:1px solid var(--line);border-radius:5px;overflow:hidden}
+.summary-head{display:grid;grid-template-columns:16% 52% 32%;background:#f1f3f8;border-bottom:1px solid var(--line)}
+.summary-head span{padding:11px 18px;font-size:11.5px;text-transform:uppercase;letter-spacing:0.8px;color:var(--muted);font-weight:700}
+.summary-row{display:grid;grid-template-columns:16% 52% 32%;border-bottom:1px solid #e8ecf3}
+.summary-row:last-child{border-bottom:none}
+.summary-row > div{padding:16px 18px;vertical-align:top;font-size:14px}
+.summary-row.no-update{background:var(--quiet-bg);color:var(--muted)}
+.sr-vendor{font-weight:700;color:var(--ink)}
+.watch-signal{display:block;color:#0b3d91;font-size:13.5px;line-height:1.55}
+.no-update-text{color:var(--muted);font-style:italic}
+
+.vendors-grid{display:block}
+.vendor-card{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:5px;
+  padding:24px 28px;
+  margin-bottom:18px;
+}
+.vendor-card.no-update{background:var(--quiet-bg)}
+.vendor-head{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.vendor-head h3{margin:0;font-size:19px;font-weight:700;letter-spacing:-0.2px}
+.status-badge{font-size:10.5px;text-transform:uppercase;letter-spacing:0.9px;font-weight:700;padding:3px 10px;border-radius:12px}
+.status-badge.active{background:#e3f6f0;color:#046a55;border:1px solid var(--light-teal)}
+.status-badge.quiet{background:#eef1f6;color:var(--muted);border:1px solid var(--line)}
+.vendor-card p{margin:0 0 14px}
+.vendor-card p:last-child{margin-bottom:0}
+.no-update-msg{color:var(--ink-soft);font-size:14px}
+
+.further-reading{display:block}
+.fr-vendor{margin-bottom:22px}
+.fr-vendor h4{margin:0 0 8px;font-size:14px;font-weight:700;color:var(--ink)}
+.fr-vendor ul{margin:0;padding-left:20px}
+.fr-vendor li{margin-bottom:6px;font-size:14px}
+.fr-link{color:var(--elastic-blue)}
+
+.site-footer{
+  margin-top:52px;
+  padding-top:20px;
+  border-top:1px solid var(--line);
+  font-size:13px;
+  color:var(--muted);
+  display:flex;
+  justify-content:space-between;
+  gap:16px;
+  flex-wrap:wrap;
+}
+.hidden{display:none !important}
+@media (max-width:820px){
+  h1{font-size:24px}
+  .summary-head{display:none}
+  .summary-row{display:block;padding:10px 0;border-bottom:1px solid var(--line)}
+  .summary-row > div{display:block;padding:6px 18px}
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-inner">
+    <div class="header-top">
+      <h1>Security competitive intelligence
+        <span class="subtitle">72-hour pulse · SIEM, XDR and the agentic SOC</span>
+      </h1>
+      <a class="archive-link" href="https://frankswain-png.github.io/security_compintel/archive/security_archive.html">View archive</a>
+    </div>
+    <nav class="solution-nav">
+      <a class="current" href="https://frankswain-png.github.io/security_compintel/">Security</a>
+      <a href="https://frankswain-png.github.io/o11y_compintel/">Observability</a>
+      <a href="https://frankswain-png.github.io/search_compintel/">Search</a>
+    </nav>
+    <div class="meta-row">
+      <span class="meta-chip range">21 Sep – 24 Sep 2026</span>
+      <span class="meta-chip">Last updated: 24 Sep 2026, 07:42 UTC</span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <div class="filter-bar" id="filterBar">
+    <span class="label">Filter</span>
+    <button class="filter-pill is-on" data-vendor="crowdstrike">CrowdStrike</button>
+    <button class="filter-pill is-on" data-vendor="sentinelone">SentinelOne</button>
+    <button class="filter-pill is-on" data-vendor="paloalto">Palo Alto Networks</button>
+    <button class="filter-pill is-on" data-vendor="microsoft">Microsoft</button>
+    <button class="filter-pill is-on" data-vendor="splunk">Splunk (Cisco)</button>
+    <button class="filter-pill is-on" data-vendor="googlesecops">Google SecOps</button>
+    <button class="filter-reset" id="filterReset">Reset</button>
+    <span class="filter-count" id="filterCount">6 of 6 shown</span>
+  </div>
+
+  <section>
+    <div class="quick-read">
+      <span class="label">TLDR</span>
+      <p>The most consequential move this window came from <strong>Microsoft</strong>, which merged Sentinel's SIEM functionality and Defender's XDR capabilities into a single console: Integrated Security Operations Center (ISOC) entered public preview on 23 September, wiring more than 500 third-party connectors and the Project Perception multiagent system into one shared telemetry layer for analysts and AI agents alike. <strong>Palo Alto Networks</strong> pushed a parallel, commercial version of the same idea a day earlier, launching Unit 42 Continuous Frontier AI Defense — a subscription offensive-security service, backed by $17 million in R&amp;D and running Anthropic's Claude Mythos and OpenAI's GPT-5.6-Cyber, that found exploitable exposures in 100 percent of its early customer engagements. Both moves point to the same theme: platform-level consolidation of SIEM, XDR and now offensive testing under a single agentic reasoning layer, sold as the answer to AI-compressed attack timelines. <strong>CrowdStrike</strong>, <strong>SentinelOne</strong>, <strong>Splunk (Cisco)</strong> and <strong>Google SecOps</strong> produced no significant new material this window, though CrowdStrike's unpatched FalconFlank privilege-escalation flaw remains open three weeks on. The next catalyst is SentinelOne's OneCon26 customer conference, opening 20 October in Las Vegas.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-label">At a glance</div>
+    <div class="summary-section">
+      <div class="summary-head">
+        <span>Vendor</span>
+        <span>Key development</span>
+        <span>Watch signal</span>
+      </div>
+
+      <div class="summary-row no-update" data-vendor="crowdstrike">
+        <div class="sr-vendor">CrowdStrike</div>
+        <div><span class="no-update-text">No significant updates in the past 72 hours.</span></div>
+        <div><span class="no-update-text">—</span></div>
+      </div>
+
+      <div class="summary-row no-update" data-vendor="sentinelone">
+        <div class="sr-vendor">SentinelOne</div>
+        <div><span class="no-update-text">No significant updates in the past 72 hours.</span></div>
+        <div><span class="no-update-text">—</span></div>
+      </div>
+
+      <div class="summary-row" data-vendor="paloalto">
+        <div class="sr-vendor">Palo Alto Networks</div>
+        <div>Palo Alto Networks launched Unit 42 Continuous Frontier AI Defense on 22 September, a subscription agentic offensive-security service that runs Anthropic's Claude Mythos and OpenAI's GPT-5.6-Cyber continuously against a customer's web apps, APIs, cloud infrastructure, code repositories and network assets. Built on six months of internal testing and validated across more than 100 Unit 42 customer engagements backed by $17 million in R&amp;D, it found exploitable exposures in every customer assessed, 37 percent rated high or critical severity.</div>
+        <div><span class="watch-signal">A vendor now selling continuous AI-run penetration testing as a subscription raises the bar on "proactive" SOC marketing — Elastic Security should be ready to explain how detection content and exposure evidence stay inspectable rather than delivered as a black-box verdict.</span></div>
+      </div>
+
+      <div class="summary-row" data-vendor="microsoft">
+        <div class="sr-vendor">Microsoft</div>
+        <div>Microsoft moved Sentinel's case management, threat intelligence, workbooks and automation into the Defender portal on 23 September, entering public preview as an Integrated Security Operations Center (ISOC) that supports more than 500 connectors for third-party telemetry. A live demo paired the unified data layer with Project Perception, Microsoft's multiagent security system, running specialized agents for investigation, reconnaissance, attack emulation and posture assessment alongside a human analyst.</div>
+        <div><span class="watch-signal">Collapsing SIEM and XDR into one Defender console deepens the single-vendor-dependency argument — Elastic Security's opening is a SIEM that ingests and correlates the same telemetry without requiring the analyst's tooling and the platform being audited to be the same product.</span></div>
+      </div>
+
+      <div class="summary-row no-update" data-vendor="splunk">
+        <div class="sr-vendor">Splunk (Cisco)</div>
+        <div><span class="no-update-text">No significant updates in the past 72 hours.</span></div>
+        <div><span class="no-update-text">—</span></div>
+      </div>
+
+      <div class="summary-row no-update" data-vendor="googlesecops">
+        <div class="sr-vendor">Google SecOps</div>
+        <div><span class="no-update-text">No significant updates in the past 72 hours.</span></div>
+        <div><span class="no-update-text">—</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-label">Vendor details</div>
+    <div class="vendors-grid">
+
+      <div class="vendor-card no-update" data-vendor="crowdstrike">
+        <div class="vendor-head"><h3>CrowdStrike</h3><span class="status-badge quiet">Quiet</span></div>
+        <p class="no-update-msg">Nothing new landed from CrowdStrike in the 21–24 September window. The standing item to keep tracking is FalconFlank, the privilege-escalation proof-of-concept published to GitHub on 3 September by the researcher operating as Chaotic Eclipse, which abuses the Falcon sensor's Office malicious-macro remediation routine to spawn a SYSTEM command prompt from a low-privileged account on fully patched Windows 11 and Windows Server. Three weeks on, CrowdStrike has still confirmed no CVE, published no CVSS score and shipped no sensor update; the standing mitigation — disabling the "Microsoft Office File Suspicious Macro Removal" Windows policy in favor of Cloud Anti-malware for Microsoft Office Files — remains the only guidance, and no in-the-wild exploitation has been identified. Fal.Con 2026 (31 August–3 September, Mandalay Bay) has closed; its output — SafeMind, Falcon Guardian AIDR, the expanded OpenAI and NVIDIA partnerships, and the Falcon listing on the Claude Marketplace — is now dated context rather than news. Separately, CrowdStrike was named a Leader in the inaugural 2026 Gartner Magic Quadrant for Cyberthreat Intelligence Technologies, published 4 May 2026 — a threat-intel placement, not a SIEM one. Research caution: CrowdStrike's Patch Tuesday analysis and Fal.Con material recur monthly and annually and are easy to mis-date; confirm the specific month and year before citing any "latest" CrowdStrike post as current.</p>
+      </div>
+
+      <div class="vendor-card no-update" data-vendor="sentinelone">
+        <div class="vendor-head"><h3>SentinelOne</h3><span class="status-badge quiet">Quiet</span></div>
+        <p class="no-update-msg">Nothing new from SentinelOne in the 21–24 September window. Standing items: SentinelOne is a Leader in the 2026 Gartner Magic Quadrant for Endpoint Protection Platforms for a sixth consecutive year — an endpoint placement, not a SIEM one — and a Strong Performer in The Forrester Wave for XDR Platforms, published in Q2 2026. Purple AI Agentic Investigation, opened to all customers alongside the introduction of Singularity Credits, is dated 17 June 2026 and is not new despite ranking highly in date-blind searches for this window. The next catalyst is OneCon26, SentinelOne's annual customer conference, running 20–22 October at the ARIA Resort in Las Vegas. Research caution: SentinelOne's fiscal year runs a year ahead of the calendar, so "fiscal 2026" results describe the quarter ended in calendar 2025 — check the quarter-end date rather than the fiscal label before treating any earnings coverage as current.</p>
+      </div>
+
+      <div class="vendor-card" data-vendor="paloalto">
+        <div class="vendor-head"><h3>Palo Alto Networks</h3><span class="status-badge active">Active</span></div>
+        <p>On 22 September Palo Alto Networks launched <strong>Unit 42 Continuous Frontier AI Defense</strong>, a subscription agentic offensive-security service aimed at enterprises that want frontier models perpetually finding, validating and helping remediate their exposures before attackers weaponize them. The service runs Anthropic's Claude Mythos and OpenAI's GPT-5.6-Cyber continuously against first- and third-party web applications, APIs, cloud infrastructure, source-code repositories and network assets — framed against Unit 42's own finding that AI-assisted attackers have compressed breach cycles by as much as 97 percent, from weeks to hours. Palo Alto says the approach was developed and validated over six months of internal testing and across more than 100 Unit 42 customer engagements, backed by $17 million in R&amp;D; in its own internal deployment the company found a year's worth of exposures in three weeks, and in customer assessments the underlying Frontier AI Exposure Analysis found exposures in 100 percent of customers, 37 percent of them rated high or critical severity. The service is available worldwide today on an annual subscription basis.</p>
+        <p><strong>Platform-level:</strong> the launch lands eleven days after the 1 September Console acquisition closed, extending a pattern Palo Alto has run through most of 2026 — buying the agentic-workflow and data layers Cortex XSIAM needs (Chronosphere, CyberArk, Console) rather than building them natively, with integration risk as the visible cost of that speed.</p>
+        <p><strong>Watch signal:</strong> a security vendor now selling continuous, AI-run penetration testing as a subscription product raises the bar on what "proactive" means in SOC marketing, and it is a services-plus-software play rather than a pure detection claim — Elastic Security's response is to be ready to explain, in concrete terms, how detection content and exposure evidence stay inspectable by the customer rather than being delivered as an opaque, vendor-graded verdict.</p>
+        <p>Standing items: Cortex XSIAM remains the SIEM-displacement vehicle, with roughly 470 customers averaging more than $1 million ARR each as of the most recent quarter, and Console is the newest piece of it with no disclosed integration timeline yet. Research caution: this vendor is badly served by date-blind search — Cortex AgentiX was announced 28 October 2025 and Cortex XSIAM 3.0 coverage is dated 28 April 2025, and both still surface as if current; confirm the year before treating any XSIAM version or AgentiX announcement as new.</p>
+      </div>
+
+      <div class="vendor-card" data-vendor="microsoft">
+        <div class="vendor-head"><h3>Microsoft</h3><span class="status-badge active">Active</span></div>
+        <p>Microsoft brought Sentinel's SIEM capabilities — case management, threat intelligence, workbooks and automation — into the Defender portal on 23 September, entering public preview as what the company calls an Integrated Security Operations Center (ISOC), built to give analysts and AI agents a common set of signals, context and controls without moving between separate tools. Microsoft said ISOC supports more than 500 connectors for bringing third-party security data into Defender alongside native telemetry; in a product demo, the company connected AWS CloudTrail data through a Sentinel connector and walked an analyst through an incident spanning a compromised endpoint, stolen credentials and an AWS account, reviewing the attack graph and hunting across 90 days of data after Defender's automated attack disruption had already intervened.</p>
+        <p><strong>Directly SIEM-relevant:</strong> Microsoft also demonstrated ISOC working with Project Perception, its multiagent security system introduced in July, running specialized agents for threat investigation, reconnaissance, attack emulation and posture assessment that then recommended configuration changes, vulnerability fixes and additional Defender detections — with a human analyst reviewing and steering the agents' work throughout. Forrester principal analyst Allie Mellen, speaking at the announcement, cautioned that AI agents "need context" and that organizations must build a reliable security data foundation first; she added that AI may not resolve incidents as quickly as teams hope initially, with more immediate value in helping analysts investigate more thoroughly and in threat hunting for smaller teams. ISOC is available now in public preview, and Microsoft said customers can start with Defender data and add external telemetry over time rather than a large upfront migration.</p>
+        <p><strong>Watch signal:</strong> collapsing SIEM and XDR into one Defender console is the clearest instance yet of Microsoft's "one vendor, one console" pitch, and it raises the same single-vendor-dependency question this report has tracked around Microsoft's own patch record — Elastic Security's opening is architectural independence: detection content and endpoint telemetry a customer owns and can query regardless of which platform vendor's console or fix is in question.</p>
+        <p>Standing items: support for the legacy HTTP Data Collector API in Microsoft Sentinel ended on 14 September 2026 — this is not a hard ingestion stop for TLS 1.2-and-later clients, but the API now receives only critical security fixes and loses incident-support SLA coverage, with the Azure Monitor Logs Ingestion API as the migration path. The MDTI convergence completed its first phase on 1 August 2026, when the standalone product retired and its capabilities moved into Defender and Sentinel at no additional cost. The Azure portal experience for Sentinel is still scheduled to retire on 31 March 2027. Separately, ShieldCrash — the 8 September proof-of-concept that claims to bypass Microsoft's own fix for the Defender privilege-escalation flaw tracked as CVE-2026-69414 (CVSS 7.8) — remains, as of this edition, without a public Microsoft confirmation, a separate CVE, or a committed patch timeline.</p>
+      </div>
+
+      <div class="vendor-card no-update" data-vendor="splunk">
+        <div class="vendor-head"><h3>Splunk (Cisco)</h3><span class="status-badge quiet">Quiet</span></div>
+        <p class="no-update-msg">Nothing new from Splunk or Cisco Security in the 21–24 September window — the news cycle emptied out once .conf26 closed on 17 September in Denver. Standing items from that event: Splunk Enterprise Security 8.7.0 shipped with AI-driven SOC response, faster connector creation, smarter Automation Builder and Detection Builder agents, MCP access to investigation context and deeper change-history visibility for analysts; the Cisco AI POD for Splunk extended the Cisco/NVIDIA Secure AI Factory partnership to bring agentic AI to on-premises Splunk customers; Cisco Talos threat intelligence was added to the Intelligence tab of Enterprise Security investigations; and Splunk and AWS formalized a multi-year agreement to co-develop security solutions aimed at outpacing AI-driven attacks. Research caution: Cisco's Splunk SOC material from .conf25 (September 2025) covers near-identical themes to .conf26 and is easy to mis-date; verify the year before citing any ".conf" or "Secure AI Factory" announcement as current.</p>
+      </div>
+
+      <div class="vendor-card no-update" data-vendor="googlesecops">
+        <div class="vendor-head"><h3>Google SecOps</h3><span class="status-badge quiet">Quiet</span></div>
+        <p class="no-update-msg">Nothing new originated from Google SecOps in the 21–24 September window. Standing items: the Threat Hunt Agent remains in public preview for Enterprise Plus customers, seeding autonomous hunts from Google Threat Intelligence objects with Mandiant frontline expertise and the MITRE ATT&amp;CK framework as its reasoning frame; unified feature role-based access control via Google Cloud IAM is generally available across Google SecOps, including SOAR. Stage 2 of the SOAR migration to Google Cloud is now due 30 November 2026, having already slipped twice from an original 30 June date — re-verify this date before relying on it in a customer conversation. The MANDIANT_ACTIVE_BREACH_IOC, MANDIANT_FUSION_IOC and OPEN_SOURCE_INTEL_IOC feeds remain deprecated ahead of removal on 18 March 2027, with customers directed to the consolidated GTI_IOC feed. Research caution: Google SecOps "What's New" posts publish on a near-weekly cadence going back years, so date-blind searches surface old entries at the top of results; confirm the calendar date on the specific changelog entry before citing it as current.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <section>
+    <div class="section-label">Further reading</div>
+    <div class="further-reading">
+
+      <div class="fr-vendor" data-vendor="paloalto">
+        <h4>Palo Alto Networks</h4>
+        <ul>
+          <li><a class="fr-link" href="https://investors.paloaltonetworks.com/news-releases/news-release-details/palo-alto-networks-delivers-anthropics-mythos-and-openais-gpt-56">Palo Alto Networks delivers Anthropic's Mythos and OpenAI's GPT-5.6 to customers with Unit 42 Continuous Frontier AI Defense — Palo Alto Networks investor relations</a></li>
+          <li><a class="fr-link" href="https://www.paloaltonetworks.com/blog/2026/09/introducing-unit-42-continuous-frontier-ai-defense/">Introducing Unit 42 Continuous Frontier AI Defense — Palo Alto Networks blog</a></li>
+          <li><a class="fr-link" href="https://www.stocktitan.net/news/PANW/palo-alto-networks-delivers-anthropic-s-mythos-and-open-ai-s-gpt-5-6-wqrhow41mzgl.html">Palo Alto Networks offers Continuous AI Defense — StockTitan</a></li>
+        </ul>
+      </div>
+
+      <div class="fr-vendor" data-vendor="microsoft">
+        <h4>Microsoft</h4>
+        <ul>
+          <li><a class="fr-link" href="https://www.microsoft.com/en-us/security/blog/2026/09/23/reimagining-the-soc-for-the-agentic-era-in-microsoft-defender/">Reimagining the SOC for the agentic era in Microsoft Defender — Microsoft Security Blog</a></li>
+          <li><a class="fr-link" href="https://redmondmag.com/articles/2026/09/23/microsoft-brings-sentinel-and-defender-together-for-agentic-security-operations.aspx">Microsoft brings Sentinel and Defender together for 'agentic' security operations — Redmondmag</a></li>
+          <li><a class="fr-link" href="https://techcommunity.microsoft.com/blog/microsoft-security-blog/action-required-transition-from-http-data-collector-api-in-microsoft-sentinel/4499777">Action required: transition from HTTP Data Collector API in Microsoft Sentinel — Microsoft Community Hub</a></li>
+        </ul>
+      </div>
+
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <span>Security competitive intelligence · 72-hour pulse · compiled for Elastic Security product marketing.</span>
+    <a href="https://frankswain-png.github.io/security_compintel/archive/security_archive.html">View archive</a>
+  </footer>
+
+</div>
+
+<script>
+(function(){
+  var STORAGE_KEY = 'compintel-security-hidden-vendors';
+  var pills = Array.prototype.slice.call(document.querySelectorAll('.filter-pill'));
+  var targets = Array.prototype.slice.call(document.querySelectorAll('[data-vendor]')).filter(function(el){
+    return !el.classList.contains('filter-pill');
+  });
+  var resetBtn = document.getElementById('filterReset');
+  var countEl = document.getElementById('filterCount');
+  var total = pills.length;
+
+  function loadHidden(){
+    try{
+      var raw = localStorage.getItem(STORAGE_KEY);
+      return raw ? JSON.parse(raw) : [];
+    }catch(e){ return []; }
+  }
+  function saveHidden(hidden){
+    try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(hidden)); }catch(e){}
+  }
+
+  function applyState(hidden){
+    pills.forEach(function(p){
+      var v = p.getAttribute('data-vendor');
+      var isHidden = hidden.indexOf(v) !== -1;
+      p.classList.toggle('is-on', !isHidden);
+      p.classList.toggle('is-off', isHidden);
+    });
+    targets.forEach(function(el){
+      var v = el.getAttribute('data-vendor');
+      el.classList.toggle('hidden', hidden.indexOf(v) !== -1);
+    });
+    var shown = total - hidden.length;
+    countEl.textContent = shown + ' of ' + total + ' shown';
+  }
+
+  var hidden = loadHidden();
+  applyState(hidden);
+
+  pills.forEach(function(p){
+    p.addEventListener('click', function(){
+      var v = p.getAttribute('data-vendor');
+      var idx = hidden.indexOf(v);
+      if (idx === -1) { hidden.push(v); } else { hidden.splice(idx, 1); }
+      saveHidden(hidden);
+      applyState(hidden);
+    });
+  });
+
+  resetBtn.addEventListener('click', function(){
+    hidden = [];
+    saveHidden(hidden);
+    applyState(hidden);
+  });
+})();
+</script>
+
+</body>
+</html>
